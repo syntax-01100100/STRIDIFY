@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>Stridify – floors that turn footsteps into electricity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Stridify installs piezoelectric floor tiles in UAE schools, stations and malls to power lights and sensors and to give live footfall data.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Noto+Kufi+Arabic:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#F4EEE3;--sf:#FBF7EF;--fg:#0B2B26;--mut:#4F6B65;--ln:#DCD2BF;--sun:#F5A524;--teal:#0F7C80;--night:#071A19;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#0C1F1D;--sf:#12302D;--fg:#F1EADB;--mut:#9DB5AF;--ln:#24413D}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 17px/1.6 'Bricolage Grotesque',system-ui,sans-serif;transition:background .5s,color .5s}
+html[lang=ar] body{font-family:'Noto Kufi Arabic','Bricolage Grotesque',sans-serif;line-height:1.9}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:60}
+h1,h2,h3{font-weight:800;letter-spacing:-.025em;line-height:1.05;margin:0}
+h1{font-size:clamp(40px,6vw,80px)}h2{font-size:clamp(30px,4.2vw,52px);max-width:20ch}h3{font-size:20px;letter-spacing:-.01em}
+html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3{letter-spacing:0;line-height:1.35}
+.w{max-width:1180px;margin:auto;padding:0 clamp(18px,4vw,40px)}
+section{padding:clamp(60px,9vw,112px) 0}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--mut);max-width:58ch;margin:16px 0 0}
+p{margin:0}a{color:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;border:2px solid var(--sun);background:var(--sun);color:#0B2B26;font:700 16px/1 inherit;font-family:inherit;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px -10px var(--sun)}
+.btn.alt{background:transparent;color:var(--fg);border-color:var(--fg)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--bg);border-bottom:1px solid var(--ln)}
+.nav{display:flex;align-items:center;gap:24px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg)}
+.lt{display:flex;flex-direction:column;line-height:1}.lt b{font-size:24px;font-weight:800;letter-spacing:-.03em}.lt span{font-family:'Noto Kufi Arabic',sans-serif;font-size:13px;color:var(--teal);margin-top:3px;font-weight:600}
+.links{display:flex;gap:22px;margin-inline-start:auto}
+.links a{text-decoration:none;font-weight:500;font-size:15px;color:var(--mut);padding:6px 0;border-bottom:2px solid transparent}
+.links a:hover,.links a.on{color:var(--fg);border-color:var(--sun)}
+.pill{border:1.5px solid var(--ln);background:transparent;color:var(--fg);border-radius:999px;padding:8px 16px;font:600 14px/1 inherit;font-family:'Noto Kufi Arabic','Bricolage Grotesque',sans-serif;cursor:pointer}
+.pill:hover{border-color:var(--fg)}
+.menu{display:none}
+@media(max-width:1200px){.menu{display:block;margin-inline-start:auto}.links{display:none;position:absolute;top:72px;inset-inline:0;background:var(--bg);flex-direction:column;gap:0;padding:8px clamp(18px,4vw,40px) 20px;border-bottom:1px solid var(--ln)}.links.open{display:flex}.links a{padding:14px 0;border-bottom:1px solid var(--ln)}.nav .btn.cta{display:none}}
+.hero{padding-top:clamp(36px,6vw,72px)}
+.hg{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,5vw,64px);align-items:center}
+@media(max-width:900px){.hg{grid-template-columns:1fr}}
+.row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.flow{display:flex;flex-wrap:wrap;gap:10px 8px;margin-top:34px;align-items:center;font-weight:600;font-size:15px}
+.flow i{font-style:normal;background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:9px 14px}.flow u{text-decoration:none;color:var(--sun)}html[dir=rtl] .flow u{display:inline-block;transform:scaleX(-1)}
+#stage{position:relative;aspect-ratio:5/4;border-radius:28px;overflow:hidden;background:radial-gradient(120% 90% at 50% 100%,#12403B,var(--night));box-shadow:0 30px 60px -30px rgba(7,26,25,.6)}
+#gl{position:absolute;inset:0;width:100%;height:100%;cursor:pointer}
+.hud{position:absolute;inset-inline:16px;bottom:14px;display:flex;justify-content:space-between;color:#CFE3DE;font-size:13.5px;pointer-events:none}
+.nogl .hud{position:static;padding:30px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:22px;padding:clamp(20px,3vw,32px)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,48px);align-items:center;margin-top:40px}
+@media(max-width:860px){.g2{grid-template-columns:1fr}}
+#hs{display:grid;gap:10px}
+.st{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;text-align:start;background:transparent;border:1.5px solid var(--ln);border-radius:16px;padding:14px 18px;color:var(--fg);font:inherit;cursor:pointer;transition:border-color .3s,background .3s}
+.st em{grid-row:span 2;font-style:normal;font-weight:800;font-size:22px;color:var(--teal);align-self:center}
+.st b{font-size:18px}.st span{color:var(--mut);font-size:15px;line-height:1.5}
+.st.on{border-color:var(--sun);background:var(--sf)}.st.on em{color:var(--sun)}
+svg.dg{width:100%;height:auto;background:var(--night);border-radius:24px}
+#shoe,#top{transition:transform .6s cubic-bezier(.3,1.3,.5,1)}#shoe{transform:translateY(-52px)}
+.s1 #shoe,.s2 #shoe,.s3 #shoe{transform:none}.s1 #top,.s2 #top,.s3 #top{transform:translateY(6px)}
+#pz{stroke:#3a7f79;transition:stroke .5s}.s2 #pz,.s3 #pz{stroke:var(--sun)}
+#wr{stroke:#2c5a55;transition:stroke .5s}.s3 #wr{stroke:var(--sun);stroke-dasharray:8 8;animation:dash 1s linear infinite}
+#bl{fill:#16302d;stroke:#3a7f79;transition:fill .5s,filter .5s}.s3 #bl{fill:var(--sun);stroke:var(--sun);filter:drop-shadow(0 0 14px var(--sun))}
+@keyframes dash{to{stroke-dashoffset:-16}}
+input[type=range]{width:100%;accent-color:var(--teal);margin:6px 0 18px}
+.ctl label{display:flex;justify-content:space-between;font-weight:600;font-size:15px}.ctl label output{color:var(--teal);font-weight:800}
+.load{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:12px 0;border-bottom:1px solid var(--ln)}.load b{font-weight:600}.load strong{font-weight:800;color:var(--teal)}
+.load div{grid-column:1/-1;height:6px;border-radius:6px;background:var(--ln);overflow:hidden}.load div i{display:block;height:100%;background:var(--sun);transition:width .5s}
+.note{border-inline-start:5px solid var(--sun);background:var(--sf);padding:18px 22px;border-radius:0 16px 16px 0;margin-top:26px}html[dir=rtl] .note{border-radius:16px 0 0 16px}
+.big{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:6px}
+.big div{background:var(--bg);border:1px solid var(--ln);border-radius:16px;padding:16px}.big b{display:block;font-size:clamp(26px,3.4vw,40px);font-weight:800;letter-spacing:-.02em;color:var(--teal)}.big span{font-size:14px;color:var(--mut)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:36px 0 22px}
+.tab{background:transparent;border:1.5px solid var(--ln);color:var(--fg);border-radius:999px;padding:10px 20px;font:600 15px/1 inherit;font-family:inherit;cursor:pointer}.tab.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media(max-width:800px){.cols{grid-template-columns:1fr}}
+.cols div{background:var(--bg);border-radius:16px;padding:20px;border:1px solid var(--ln)}.cols h3{margin-bottom:8px;color:var(--teal)}
+#chart{width:100%;height:auto}
+.don{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--sun) 0 40%,var(--teal) 0 65%,#7DB9AE 0 85%,var(--fg) 0 100%);display:grid;place-items:center;flex:none}.don::after{content:"";width:90px;height:90px;border-radius:50%;background:var(--sf)}
+.tl{display:grid;grid-auto-flow:column;grid-auto-columns:min(300px,80%);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;margin-top:36px}
+.tl .card{scroll-snap-align:start;border-top:6px solid var(--sun)}.tl h3{font-size:34px;color:var(--teal);margin-bottom:8px}
+.tag{display:inline-block;background:var(--sun);color:#0B2B26;font-weight:700;font-size:13px;border-radius:8px;padding:3px 10px;margin-top:10px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}@media(max-width:700px){form{grid-template-columns:1fr}}
+form .f{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:15px}.f.full{grid-column:1/-1}
+input:not([type=range]),select,textarea{font:inherit;font-weight:400;padding:13px 14px;border-radius:12px;border:1.5px solid var(--ln);background:var(--bg);color:var(--fg)}
+.f.bad input,.f.bad select{border-color:#C0392B}.err{color:#C0392B;font-size:13.5px;font-weight:500;min-height:0}
+#ok{display:none;text-align:center;padding:40px 20px}#ok.show{display:block}#ok svg{width:72px;height:72px}
+#ok path{stroke-dasharray:60;stroke-dashoffset:60;animation:dr .8s .2s forwards}@keyframes dr{to{stroke-dashoffset:0}}
+details{border-bottom:1px solid var(--ln);padding:14px 0}summary{cursor:pointer;font-weight:700;list-style:none}summary::after{content:"+";float:inline-end;color:var(--sun);font-size:22px;line-height:1}details[open] summary::after{content:"–"}details p{color:var(--mut);margin-top:8px}
+footer{background:var(--night);color:#E9E2D3;padding:64px 0 40px}footer .logo{color:#fff}footer .lt span{color:#7DD3C8}footer a{color:#CFE3DE}
+.fg{display:grid;grid-template-columns:1fr 1.3fr;gap:48px}@media(max-width:800px){.fg{grid-template-columns:1fr}}
+footer summary{color:#fff}footer details{border-color:#24413D}footer details p{color:#A9C3BC}
+
+/* ---- theme toggle ---- */
+.tg{position:relative;width:40px;height:40px;padding:0;display:grid;place-items:center;flex:none}
+.tg svg{position:absolute;width:20px;height:20px;transition:transform .55s cubic-bezier(.3,1.4,.5,1),opacity .3s}
+.tg .moon{color:var(--fg)}.tg .sun{color:var(--sun);opacity:0;transform:rotate(-90deg) scale(.4)}
+:root[data-theme="dark"] .tg .sun{opacity:1;transform:none}
+:root[data-theme="dark"] .tg .moon{opacity:0;transform:rotate(90deg) scale(.4)}
+.tg:hover{transform:rotate(12deg)}.pill{transition:border-color .25s,transform .3s}
+@media (prefers-reduced-motion:no-preference){.tt *,.tt *::before,.tt *::after{transition:background-color .55s,color .55s,border-color .55s,fill .55s,stroke .55s,box-shadow .55s!important}}
+/* ---- motion ---- */
+html[dir=rtl]{--dir:-1}
+header{transition:box-shadow .3s}header.sc{box-shadow:0 12px 30px -20px rgba(7,26,25,.55)}
+#pg{position:absolute;inset-inline:0;bottom:-1px;height:3px;background:linear-gradient(90deg,var(--sun),var(--teal));transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+html[dir=rtl] #pg{transform-origin:100% 50%}
+.links a{transition:color .25s,border-color .25s,transform .25s}.links a:hover{transform:translateY(-2px)}
+.logo svg{transition:transform .6s cubic-bezier(.3,1.4,.5,1)}.logo:hover svg{transform:rotate(-14deg) scale(1.12)}
+.nav .btn.cta{animation:pulse 2.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,165,36,.5)}50%{box-shadow:0 0 0 10px rgba(245,165,36,0)}}
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;bottom:0;width:60%;left:-80%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);transition:left .6s}
+.btn:hover::after{left:130%}.btn:active{transform:translateY(0) scale(.97)}
+.hero{position:relative;overflow:hidden}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(80px);opacity:.3;pointer-events:none;z-index:0}
+.hero::before{width:420px;height:420px;background:var(--sun);top:-140px;inset-inline-start:-120px;animation:drift 14s ease-in-out infinite alternate}
+.hero::after{width:380px;height:380px;background:var(--teal);bottom:-160px;inset-inline-end:-100px;animation:drift 18s ease-in-out infinite alternate-reverse}
+:root[data-theme="dark"] .hero::before,:root[data-theme="dark"] .hero::after{opacity:.16}
+@keyframes drift{to{translate:70px 50px;scale:1.2}}
+.hero .w{position:relative;z-index:1}
+.wd{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
+.wd>span{display:inline-block;animation:wup .85s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.08s + .1s)}
+@keyframes wup{from{transform:translateY(115%) rotate(4deg);opacity:0}}
+@keyframes up{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.hero .lead{animation:up .8s .55s cubic-bezier(.2,.8,.2,1) both}
+#stage{animation:pop 1s .3s cubic-bezier(.2,.8,.2,1) both,float 6s 1.4s ease-in-out infinite}
+@keyframes pop{from{opacity:0;transform:translateY(40px) scale(.9)}}
+@keyframes float{50%{translate:0 -10px}}
+.flow u{display:inline-block;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{translate:calc(5px*var(--dir,1)) 0}}
+.flow i{transition:transform .25s,border-color .25s}.flow i:hover{transform:translateY(-3px);border-color:var(--sun)}
+.rv{opacity:0;transform:translateY(32px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.lead.rv{transition-delay:.12s}.g2>.rv:nth-child(2){transition-delay:.16s}
+section h2{position:relative}
+section h2::after{content:"";display:block;width:0;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--sun),var(--teal));margin-top:16px;transition:width .9s .35s cubic-bezier(.2,.8,.2,1)}
+section h2.in::after{width:72px}
+.stg:not(.in)>*{opacity:0}
+.stg.in>*{animation:up .7s cubic-bezier(.2,.8,.2,1) both}
+.stg.in>*:nth-child(1){animation-delay:.05s}.stg.in>*:nth-child(2){animation-delay:.13s}.stg.in>*:nth-child(3){animation-delay:.21s}.stg.in>*:nth-child(4){animation-delay:.29s}.stg.in>*:nth-child(5){animation-delay:.37s}.stg.in>*:nth-child(6){animation-delay:.45s}
+.hero .stg.in>*:nth-child(1){animation-delay:.7s}.hero .stg.in>*:nth-child(2){animation-delay:.8s}.hero .stg.in>*:nth-child(3){animation-delay:.9s}.hero .stg.in>*:nth-child(4){animation-delay:1s}.hero .stg.in>*:nth-child(5){animation-delay:1.1s}
+.cols div,.big div,.tl .card{transition:transform .35s cubic-bezier(.3,1.3,.5,1),box-shadow .35s,border-color .35s}
+.cols div:hover,.big div:hover,.tl .card:hover{transform:translateY(-6px);box-shadow:0 18px 30px -20px rgba(7,26,25,.5);border-color:var(--sun)}
+.st{transition:border-color .3s,background .3s,translate .3s}.st:hover{translate:calc(5px*var(--dir,1)) 0}
+.tab{transition:background .25s,color .25s,border-color .25s,transform .25s}.tab:hover{transform:translateY(-2px);border-color:var(--sun)}
+input:not([type=range]),select,textarea{transition:border-color .25s,box-shadow .25s}
+input:not([type=range]):focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px rgba(15,124,128,.18)}
+.don{transition:transform .6s cubic-bezier(.3,1.3,.5,1)}.don:hover{transform:rotate(25deg) scale(1.05)}
+details{transition:padding .3s}summary::after{transition:transform .3s}details[open] summary::after{transform:rotate(180deg)}
+details[open] p{animation:up .4s both}
+
+/* ---- product + community ---- */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin:0 0 14px}
+html[lang=ar] .eyebrow{letter-spacing:0;text-transform:none;font-size:15px}
+.eyebrow .dot,.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--sun);animation:pulse 2s ease-in-out infinite;flex:none}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:var(--sf);border:1.5px solid var(--ln);font-weight:600;font-size:14px;text-decoration:none;margin-bottom:22px;transition:border-color .25s,transform .25s;animation:up .7s .05s both}
+.chip:hover{border-color:var(--sun);transform:translateY(-2px)}
+.tilesec{background:radial-gradient(60% 50% at 80% 15%,rgba(245,165,36,.14),transparent 70%),var(--bg)}
+.tilegrid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(20px,4vw,48px);align-items:center;margin-top:40px}
+@media(max-width:860px){.tilegrid{grid-template-columns:1fr}}
+.tilefig{position:relative;background:radial-gradient(100% 80% at 50% 100%,#12403B,var(--night));border-radius:28px;padding:clamp(10px,2vw,22px);box-shadow:0 30px 60px -30px rgba(7,26,25,.6)}
+#tsv{display:block;width:100%;height:auto;overflow:visible}
+.ly{cursor:pointer;transition:transform 1.3s cubic-bezier(.2,.9,.3,1.15),opacity .35s,filter .35s;transition-delay:calc(var(--k)*.12s),0s,0s}
+.tilefig:not(.in) .ly{transform:translateY(var(--c))}
+.tilefig.in .ly{animation:lyf 5s ease-in-out infinite;animation-delay:calc(var(--k)*-.9s)}
+@keyframes lyf{50%{translate:0 -7px}}
+#tsv.hl .ly:not(.on){opacity:.4}.ly.on{filter:drop-shadow(0 0 16px rgba(245,165,36,.55))}
+.ly .bd{opacity:0;transition:opacity .3s}.ly.on .bd{opacity:1}
+#tlist{display:grid;gap:10px}
+.big.specs{grid-template-columns:repeat(4,1fr);margin-top:44px}@media(max-width:800px){.big.specs{grid-template-columns:repeat(2,1fr)}}
+.cap{color:var(--mut);font-size:14px;margin-top:12px}.cap a{color:var(--teal);font-weight:600}
+.sub{margin-top:56px;font-size:clamp(24px,3vw,34px)}.tilesec .cols{margin-top:20px}
+.price{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,48px);align-items:center;margin-top:56px}@media(max-width:860px){.price{grid-template-columns:1fr}}
+.pstack{display:flex;height:22px;border-radius:12px;overflow:hidden;background:var(--ln);margin:6px 0 10px}.pstack i{display:block;height:100%}.pbase{background:var(--teal)}.pextra{background:var(--sun);flex:1}
+.plegend{display:flex;gap:18px;flex-wrap:wrap;font-size:14px;color:var(--mut);margin-bottom:16px}.plegend s{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px;text-decoration:none}.k1{background:var(--teal)}.k2{background:var(--sun)}
+.price .big b{font-size:clamp(20px,2.5vw,28px)}
+.joinsec{position:relative;overflow:hidden;background:linear-gradient(160deg,#0F3F3B,var(--night));color:#F1EADB}
+.joinsec::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:var(--sun);filter:blur(120px);opacity:.14;top:-200px;inset-inline-end:-120px;animation:drift 16s ease-in-out infinite alternate;pointer-events:none}
+.joinsec .w{position:relative}.joinsec .lead{color:#A9C3BC}.joinsec .eyebrow{color:#7DD3C8}
+.joinsec .card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)}
+.joinsec .btn.alt{color:#F1EADB;border-color:#F1EADB}
+.lamps h3{color:#fff}.lamps p{color:#A9C3BC;margin-top:6px}
+.lrow{display:flex;justify-content:space-between;margin:34px 4px 18px;border-top:4px solid rgba(255,255,255,.18);padding:0 6px}
+.lamp{position:relative;display:block;width:clamp(16px,3vw,26px);aspect-ratio:1;border-radius:50%;background:#1b3c38;margin-top:16px;transition:background .4s,box-shadow .4s}
+.lamp::before{content:"";position:absolute;left:50%;top:-16px;width:2px;height:16px;background:rgba(255,255,255,.2);translate:-50% 0}
+.lamp.on{background:var(--sun);box-shadow:0 0 22px 6px rgba(245,165,36,.65);animation:lamp .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes lamp{from{transform:scale(.4)}}
+.done .lamp.on{animation:lampg 1.4s ease-in-out infinite alternate}
+@keyframes lampg{to{box-shadow:0 0 34px 12px rgba(245,165,36,.85);transform:scale(1.12)}}
+.pbar{height:8px;border-radius:8px;background:rgba(255,255,255,.14);overflow:hidden}.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sun),#ffd27a);transition:width .4s}
+.lmeta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:12px 0 20px;font-size:15px;color:#CFE3DE}.lmeta b{color:var(--sun);font-size:20px}
+.lamps .row{margin-top:0;position:relative}
+.plus{position:absolute;top:-6px;color:var(--sun);font-weight:800;pointer-events:none;animation:plus .9s ease-out forwards}
+@keyframes plus{to{transform:translateY(-46px);opacity:0}}
+.btn:disabled{opacity:.5;cursor:default}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:560px){.roles{grid-template-columns:1fr}}
+.roles div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:20px;transition:transform .35s cubic-bezier(.3,1.3,.5,1),border-color .3s,background .3s}
+.roles div:hover{transform:translateY(-6px);border-color:var(--sun);background:rgba(255,255,255,.1)}
+.roles h3{color:#fff;margin:10px 0 6px}.roles p{color:#B7CEC8;font-size:15.5px;line-height:1.5}.roles .tag{margin:0}
+.manifesto{margin-top:clamp(44px,7vw,80px);font-size:clamp(28px,4.6vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.08;max-width:20ch}
+html[lang=ar] .manifesto{letter-spacing:0;line-height:1.45}
+.manifesto span{background:linear-gradient(90deg,var(--sun),#ffe0a1,var(--sun));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.joinsec .row{margin-top:36px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+/* ---- business and financial plan ---- */
+.fnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.fnav a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:14.5px;border:1.5px solid var(--ln);border-radius:999px;padding:8px 16px 8px 9px;color:var(--fg);background:var(--bg);transition:border-color .25s,transform .25s}
+html[dir=rtl] .fnav a{padding:8px 9px 8px 16px}
+.fnav a:hover{border-color:var(--sun);transform:translateY(-2px)}
+.fnav a i{font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--sun);color:#0B2B26;display:grid;place-items:center;font-size:13px;font-weight:800}
+#money .fb{margin-top:24px;background:var(--bg)}
+.fh{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.fh em{font-style:normal;width:40px;height:40px;border-radius:50%;background:var(--sun);color:#0B2B26;display:grid;place-items:center;font-weight:800;flex:none}
+.fh h3{font-size:clamp(22px,2.6vw,30px)}
+#money .cols div{background:var(--sf);display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+#money .cols p{color:var(--mut);font-size:15px}
+.pv{font-size:clamp(22px,2.4vw,28px);font-weight:800;color:var(--teal);letter-spacing:-.02em;margin-top:auto;padding-top:6px}
+.pv small{font-size:14px;font-weight:600;color:var(--mut);letter-spacing:0}
+.itot{display:flex;justify-content:space-between;gap:12px;padding:14px 16px;margin-top:12px;border-radius:14px;background:var(--sun);color:#0B2B26;font-weight:800;font-size:18px}
+.pt{width:100%;border-collapse:collapse;font-size:15.5px;min-width:340px}
+.pt th,.pt td{padding:11px 10px;border-bottom:1px solid var(--ln);text-align:end;font-variant-numeric:tabular-nums}
+.pt th:first-child,.pt td:first-child{text-align:start}
+.pt th{color:var(--mut);font-weight:600;font-size:14px}
+.pt tr.np td{font-weight:800;color:var(--teal);border-bottom:0;font-size:17px}
+.neg{color:#C0392B!important}
+</style>
+<style id="acct-css">
+#acct{padding:9px 16px;font-size:14px}
+.am{position:fixed;inset:0;z-index:200;background:rgba(7,26,25,.62);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:clamp(12px,4vw,40px) 14px}
+.am.open{display:flex}
+.ab{background:var(--bg);color:var(--fg);border:1px solid var(--ln);border-radius:26px;width:100%;max-width:640px;padding:clamp(20px,4vw,36px);position:relative;margin:auto 0}
+.ax{position:absolute;top:14px;inset-inline-end:14px;width:38px;height:38px;padding:0;display:grid;place-items:center;font-size:18px}
+.ab h2{font-size:clamp(26px,4vw,36px);max-width:none;padding-inline-end:40px}
+.ab .lead{font-size:16px;margin-top:8px}
+.af{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.af .full{grid-column:1/-1}@media(max-width:560px){.af{grid-template-columns:1fr}}
+.ab .big{margin-top:18px}.ab .big b{font-size:clamp(24px,5vw,34px)}
+.ab .ctl{margin-top:18px}
+.ahow{margin-top:18px;border:1px solid var(--ln);border-radius:16px;background:var(--sf);padding:4px 16px}
+.ahow summary{cursor:pointer;font-weight:700;padding:12px 0}
+.ahow ol{margin:0 0 12px;padding-inline-start:20px;color:var(--mut);font-size:15px;line-height:1.7}
+.ahow ol b{color:var(--fg)}
+.anote{font-size:13px;color:var(--mut);margin-top:12px}
+.ahd{display:flex;align-items:center;gap:8px;margin-top:6px;color:var(--mut);font-size:15px}
+.ahd .tag{margin:0}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ico" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="3"/><ellipse cx="20" cy="20" rx="6" ry="10" fill="#F5A524"/><ellipse cx="20" cy="35" rx="4.5" ry="4.5" fill="#F5A524"/><path d="M35 11l-6 10h5l-4 10 10-13h-6z" fill="#0F7C80"/></symbol></svg>
+<header><div class="w nav">
+ <a class="logo" href="#top" aria-label="Stridify ستريديفاي"><svg width="40" height="40"><use href="#ico"/></svg><span class="lt"><b>Stridify</b><span>ستريديفاي</span></span></a>
+ <nav class="links" id="lk" aria-label="Main">
+  <a href="#tile" data-ar="البلاطة">The tile</a><a href="#how" data-ar="كيف يعمل">How it works</a><a href="#impact" data-ar="الأثر">Impact</a><a href="#who" data-ar="لمن؟">Who it’s for</a><a href="#money" data-ar="الجدوى المالية">Financials</a><a href="#vision" data-ar="رؤية 2030">Vision 2030</a><a href="#join" data-ar="انضم">Join in</a>
+ </nav>
+ <button class="pill" id="lb" aria-label="Switch language">العربية</button>
+ <button class="pill tg" id="th" type="button" aria-label="Switch to dark mode"><svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" fill="currentColor"/></svg><svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+ <button class="btn alt" id="acct" type="button">Sign up</button>
+  <a class="btn cta" href="#pilot" data-ar="اطلب تجربة">Request a pilot</a>
+ <button class="pill menu" id="mn" aria-label="Menu" aria-expanded="false">☰</button>
+</div><i id="pg"></i></header>
+
+<main id="top">
+<section class="hero"><div class="w hg">
+ <div>
+  <a class="chip" href="#tile"><span class="dot"></span><span data-ar="تعرّف على بلاطة ستريديفاي">Meet the Stridify Tile</span></a>
+  <h1 data-ar="أرضيات تحوّل خطواتك إلى كهرباء.">Floors that turn footsteps into electricity.</h1>
+  <p class="lead" data-ar="تركّب ستريديفاي بلاطاً كهروضغطياً في المدارس والمحطات والمراكز التجارية. كل خطوة تساعد في تشغيل الإضاءة والمستشعرات ونقاط الشحن القريبة.">Stridify installs piezoelectric tiles in schools, stations and malls. Every step helps power the lights, sensors and charging points around it.</p>
+  <div class="row stg"><a class="btn" href="#tile" data-ar="تعرّف على البلاطة">Meet the tile</a><a class="btn alt" href="#pilot" data-ar="اطلب تجربة">Request a pilot</a></div>
+  <div class="flow stg"><i data-ar="تخطو على البلاطة">You step on a tile</i><u>➜</u><i data-ar="تنثني فتولّد طاقة">It flexes and makes power</i><u>➜</u><i data-ar="تعمل الإضاءة والمستشعرات">Lights and sensors run</i></div>
+ </div>
+ <div id="stage"><canvas id="gl"></canvas><div class="hud"><span data-ar="اضغط أي بلاطة لتخطو">Tap any tile to step</span><span><span data-ar="الخطوات:">Steps:</span> <b id="hs0">0</b></span></div></div>
+</div></section>
+<div class="mqw" aria-hidden="true"><div class="mq"><div class="mq-t" id="mqt"><div class="mq-g"><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i></div><div class="mq-g"><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i><span>Stridify</span><i>✦</i><span class="ar">ستريديفاي</span><i>✦</i></div></div></div></div>
+
+
+<section id="tile" class="tilesec"><div class="w">
+ <p class="eyebrow"><span class="dot"></span><span data-ar="المنتج">The product</span></p>
+ <h2 data-ar="تعرّف على بلاطة ستريديفاي.">Meet the Stridify Tile.</h2>
+ <p class="lead" data-ar="بلاطة تبدو كأي بلاطة أرضيات، لكنها تعمل كمحطة طاقة صغيرة. ضعها حيث يمشي الناس، وستُضيء كل خطوة الأضواء والمستشعرات وتُحصي حركة المشاة.">A floor tile that looks like any other, and works like a tiny power station. Fit it where people already walk, and every step powers lights and sensors and counts the footfall.</p>
+ <div class="tilegrid">
+  <div class="tilefig" id="tf"><svg id="tsv" viewBox="0 0 500 400" role="img" aria-label="Exploded view of a Stridify tile with four layers: surface, piezo layer, smart electronics and sealed base"><ellipse cx="250" cy="372" rx="130" ry="14" fill="rgba(245,165,36,.16)"/><g stroke="rgba(255,255,255,.22)" stroke-width="1.5" stroke-dasharray="5 6"><line x1="150" x2="150" y1="90" y2="334"/><line x1="350" x2="350" y1="90" y2="334"/></g><g class="ly" data-i="3" style="--c:0px;--k:3"><polygon points="250,265 350,315 250,365 150,315" fill="#1d5a53"/><polygon points="150,315 250,365 250,383 150,333" fill="#123f3a"/><polygon points="250,365 350,315 350,333 250,383" fill="#0d2f2b"/><g class="bd"><line x1="356" x2="384" y1="324" y2="324" stroke="#F5A524" stroke-width="2"/><circle cx="398" cy="324" r="12" fill="#F5A524"/><text x="398" y="329" text-anchor="middle" font-size="14" font-weight="800" fill="#0B2B26">4</text></g></g><g class="ly" data-i="2" style="--c:70px;--k:2"><polygon points="250,185 350,235 250,285 150,235" fill="#1aa0a4"/><polygon points="150,235 250,285 250,295 150,245" fill="#0F7C80"/><polygon points="250,285 350,235 350,245 250,295" fill="#0b6063"/><polyline points="250,205 250,235 300,240" fill="none" stroke="#7DD3C8" stroke-width="2"/><polygon points="250,199 262,205 250,211 238,205" fill="#7DD3C8"/><polygon points="250,224 272,235 250,246 228,235" fill="#071A19"/><polygon points="300,234 312,240 300,246 288,240" fill="#F5A524"/><polygon points="205,232.5 215,237.5 205,242.5 195,237.5" fill="#7DD3C8"/><g class="bd"><line x1="356" x2="384" y1="240" y2="240" stroke="#F5A524" stroke-width="2"/><circle cx="398" cy="240" r="12" fill="#F5A524"/><text x="398" y="245" text-anchor="middle" font-size="14" font-weight="800" fill="#0B2B26">3</text></g></g><g class="ly" data-i="1" style="--c:140px;--k:1"><polygon points="250,105 350,155 250,205 150,155" fill="#F5C060"/><polygon points="150,155 250,205 250,215 150,165" fill="#E39A1B"/><polygon points="250,205 350,155 350,165 250,215" fill="#C47F0E"/><ellipse cx="250" cy="130" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><ellipse cx="225" cy="142.5" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><ellipse cx="200" cy="155" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><ellipse cx="275" cy="142.5" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><ellipse cx="250" cy="155" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><ellipse cx="225" cy="167.5" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><ellipse cx="300" cy="155" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><ellipse cx="275" cy="167.5" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><ellipse cx="250" cy="180" rx="12" ry="6" fill="#B9730A" stroke="#7a4a05" stroke-width="1.5"/><g class="bd"><line x1="356" x2="384" y1="160" y2="160" stroke="#F5A524" stroke-width="2"/><circle cx="398" cy="160" r="12" fill="#F5A524"/><text x="398" y="165" text-anchor="middle" font-size="14" font-weight="800" fill="#0B2B26">2</text></g></g><g class="ly" data-i="0" style="--c:211px;--k:0"><polygon points="250,20 350,70 250,120 150,70" fill="#3b8f86"/><polygon points="150,70 250,120 250,134 150,84" fill="#276a63"/><polygon points="250,120 350,70 350,84 250,134" fill="#1d544e"/><polygon points="250,30 330,70 250,110 170,70" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/><g transform="matrix(1.7 .85 -1.7 .85 250 70) translate(-33 -21)"><path d="M35 11l-6 10h5l-4 10 10-13h-6z" fill="#F5A524"/></g><g class="bd"><line x1="356" x2="384" y1="77" y2="77" stroke="#F5A524" stroke-width="2"/><circle cx="398" cy="77" r="12" fill="#F5A524"/><text x="398" y="82" text-anchor="middle" font-size="14" font-weight="800" fill="#0B2B26">1</text></g></g></svg></div>
+  <div id="tlist"></div>
+ </div>
+ <div class="big specs stg">
+  <div><b>50 × 50 cm</b><span data-ar="مقاس البلاطة">Tile size</span></div>
+  <div><b>~4 cm</b><span data-ar="السماكة">Thickness</span></div>
+  <div><b>2–5 J</b><span data-ar="الطاقة لكل خطوة">Energy per step</span></div>
+  <div><b data-ar="مباشرة">Live</b><span data-ar="بيانات حركة المشاة عبر الشبكة اللاسلكية">Footfall data, wireless</span></div>
+ </div>
+ <p class="cap" data-ar="مواصفات مستهدفة لبلاطة التجربة. ستأتي الأرقام النهائية من قياسات المشاريع التجريبية.">Target specs for the pilot tile. Final numbers will come from pilot measurements.</p>
+ <h3 class="sub" data-ar="التقنية خلف البلاطة">The tech behind it</h3>
+ <div class="cols stg">
+  <div><h3 data-ar="الأثر الكهروضغطي">Piezoelectric effect</h3><p data-ar="عند ضغط بعض أنواع السيراميك تُطلق شحنة كهربائية. تنثني الطبقة بضعة مليمترات مع كل خطوة فتنتج نبضة صغيرة قابلة للاستخدام.">Squeeze certain ceramics and they release electric charge. Each step bends the layer a few millimetres, enough for a small, usable pulse.</p></div>
+  <div><h3 data-ar="تخزين وتنعيم">Store and smooth</h3><p data-ar="كل نبضة صغيرة وغير منتظمة. يحوّلها مقوّم ومكثّف فائق إلى طاقة ثابتة لمصابيح LED والمستشعرات.">Each pulse is tiny and spiky. A rectifier and supercapacitor turn it into steady power for LEDs and sensors.</p></div>
+  <div><h3 data-ar="بيانات عن كل خطوة">Data on every step</h3><p data-ar="الإشارة نفسها تخبرنا بمرور شخص ما، فتتحول إلى لوحة بيانات مباشرة لحركة المشاة للملاك والمدارس والرعاة.">The same signal tells us when someone walked by. That becomes a live footfall dashboard for owners, schools and sponsors.</p></div>
+ </div>
+ <div class="card price" id="pr">
+  <div>
+   <h3 data-ar="كم تكلفتها؟">What does it cost?</h3>
+   <p style="color:var(--mut);margin:8px 0 18px" data-ar="تكلف بلاطة ستريديفاي أكثر من بلاطة الأرضيات العادية لأنها تحمل الطبقة الكهروضغطية والإلكترونيات والمستشعر. هذه هي الزيادة التي ستدفعها. الأسعار توضيحية.">A Stridify Tile costs more than a plain floor tile because it carries the piezo layer, electronics and sensor. Here is the extra you would pay. Prices are illustrative.</p>
+   <div class="ctl"><label for="pn"><span data-ar="عدد البلاطات">Number of tiles</span><output id="pno"></output></label><input id="pn" type="range" min="10" max="400" step="10" value="100"></div>
+   <p class="cap" style="margin-top:0" data-ar="توضيحي: 250 درهماً للبلاطة العادية و1,500 درهم لبلاطة ستريديفاي بعد التركيب (1,100 درهم للبلاطة + 400 درهم للتركيب). راجع <a href='#money'>الخطة المالية</a>.">Illustrative: AED 250 for a normal tile and AED 1,500 for a Stridify Tile, installed (AED 1,100 tile + AED 400 installation). See <a href="#money">the financial plan</a>.</p>
+  </div>
+  <div>
+   <div class="pstack" role="img" aria-label="Normal cost versus extra cost"><i class="pbase" style="width:16.67%"></i><i class="pextra"></i></div>
+   <div class="plegend"><span><s class="k1"></s><span data-ar="أرضية بلاط عادية">Normal tile floor</span></span><span><s class="k2"></s><span data-ar="الزيادة لستريديفاي">Extra for Stridify</span></span></div>
+   <div class="big"><div><b>AED <span id="p1">0</span></b><span data-ar="درهم لأرضية عادية">for a normal floor</span></div><div><b>AED <span id="p2">0</span></b><span data-ar="درهم لأرضية ستريديفاي">for a Stridify floor</span></div><div><b>AED <span id="p3">0</span></b><span data-ar="درهم زيادة تدفعها">extra you pay</span></div><div><b>AED 1,250</b><span data-ar="درهم زيادة لكل بلاطة">extra per tile</span></div></div>
+  </div>
+ </div>
+</div></section>
+
+<section id="how" style="background:var(--sf)"><div class="w">
+ <h2 data-ar="كيف تصبح الخطوة طاقة.">How a footstep becomes power.</h2>
+ <p class="lead" data-ar="طبقة كهروضغطية تحت البلاطة تولّد جهداً صغيراً عند الضغط عليها. تخزّنه ستريديفاي وترسله إلى الإضاءة والمستشعرات القريبة.">A piezoelectric layer under the tile makes a small voltage when it is squeezed. Stridify stores it and sends it to nearby lights and sensors.</p>
+ <div class="g2">
+  <svg class="dg" id="dg" viewBox="0 0 560 320" role="img" aria-label="Tile cross-section">
+   <g id="shoe"><path d="M150 112h200l30 24v18H130v-26z" fill="#E9E2D3"/><rect x="130" y="154" width="250" height="16" rx="6" fill="#9DB5AF"/></g>
+   <g id="top"><rect x="110" y="178" width="290" height="34" rx="6" fill="#2d6a63"/></g>
+   <rect x="110" y="214" width="290" height="46" fill="#123f3a"/><path id="pz" d="M118 252l18-30 18 30 18-30 18 30 18-30 18 30 18-30 18 30 18-30 18 30 18-30 18 30 18-30 18 30" fill="none" stroke-width="3" stroke-linejoin="round"/>
+   <rect x="110" y="262" width="290" height="28" fill="#0d2a27"/>
+   <path id="wr" d="M400 238h70v-90" fill="none" stroke-width="4"/><circle id="bl" cx="470" cy="118" r="30" stroke-width="3"/><rect x="456" y="150" width="28" height="10" rx="3" fill="#3a7f79"/>
+  </svg>
+  <div id="hs"></div>
+ </div>
+</div></section>
+
+<section id="power"><div class="w">
+ <h2 data-ar="ما الذي تشغّله؟ بصراحة.">What can it run? Honestly.</h2>
+ <p class="lead" data-ar="الخطوة الواحدة تولّد قدراً صغيراً من الطاقة. هذا عدد الخطوات اللازمة لتشغيل كل جهاز لمدة ساعة.">One footstep makes a small amount of energy. Here is how many steps each device needs to run for one hour.</p>
+ <div class="g2" style="align-items:start">
+  <div class="card"><div class="ctl"><label for="jj"><span data-ar="الطاقة لكل خطوة (جول)">Energy per step (joules)</span><output id="jjo">2</output></label><input id="jj" type="range" min="1" max="6" step=".5" value="2"></div><div id="loads"></div></div>
+  <div><div class="note"><b data-ar="تنبيه واقعي">Reality check</b><p data-ar="تضيف البلاطات طاقة نظيفة تكميلية متواضعة، وتعمل بأفضل شكل بجانب الطاقة الشمسية. ميزتها الحقيقية هي بيانات حركة المشاة المباشرة وتفاعل الناس مع الاستدامة." style="margin-top:6px">Tiles add modest, clean supplementary power and work best alongside solar. Their real edge is live footfall data and getting people involved in sustainability.</p></div></div>
+ </div>
+</div></section>
+
+<section id="impact" style="background:var(--sf)"><div class="w">
+ <h2 data-ar="مدرسة بالأرقام.">A school in numbers.</h2>
+ <p class="lead" data-ar="حرّك المؤشرات لترى ما قد تولّده مدرسة خلال عام دراسي. الأرقام توضيحية.">Move the sliders to see what one school could generate in a school year. Numbers are illustrative.</p>
+ <div class="g2">
+  <div class="card ctl"><label for="stu"><span data-ar="عدد الطلاب">Students</span><output id="stuo"></output></label><input id="stu" type="range" min="100" max="5000" step="50" value="1200">
+   <label for="spd"><span data-ar="خطوات كل طالب على البلاط يومياً">Steps per student on tiles each day</span><output id="spdo"></output></label><input id="spd" type="range" min="20" max="400" step="10" value="150"></div>
+  <div><div class="big stg"><div><b id="o1">0</b><span data-ar="مليون خطوة في السنة">million steps a year</span></div><div><b id="o2">0</b><span data-ar="كيلوواط ساعة في السنة">kWh a year</span></div><div><b id="o3">0</b><span data-ar="ساعة تشغيل لمصباح LED بقدرة 5 واط">hours of a 5 W LED light</span></div><div><b id="o4">0</b><span data-ar="كغ ثاني أكسيد الكربون المتجنَّب سنوياً">kg CO₂ avoided a year</span></div></div>
+  <p style="margin-top:14px;color:var(--mut);font-size:15px" data-ar="الأرقام صغيرة عمداً: القيمة الكبرى هي إضاءة الممرات المظلمة وبيانات الحركة. تفترض الحسابات 190 يوماً دراسياً و0.4 كغ CO₂ لكل كيلوواط ساعة (يُرجى التحقق).">The numbers are small on purpose: the bigger value is lighting dark corridors and footfall data. Assumes 190 school days and 0.4 kg CO₂ per kWh (verify before publishing).</p></div>
+ </div>
+</div></section>
+
+<section id="who"><div class="w">
+ <h2 data-ar="لمن صُمّمت ستريديفاي؟">Who is Stridify for?</h2>
+ <div class="tabs" id="tabs" role="tablist"></div><div class="cols stg" id="tp"></div>
+</div></section>
+
+<section id="money" style="background:var(--sf)"><div class="w">
+ <h2 data-ar="الخطة المالية.">The business and financial plan.</h2>
+ <p class="lead" data-ar="من المنتج إلى الربح: ما نبيعه، وكيف ننطلق، وكم يكلّف، ومتى نصل إلى نقطة التعادل، وكم نربح. مبنية على طلب استثمار قدره 120,000 درهم.">From product to profit: what we sell, how we launch, what it costs, when we break even and what we earn. Built on the AED 120,000 investment request.</p>
+ <nav class="fnav" id="fnav" aria-label="Plan sections"></nav>
+
+ <div class="card fb" id="f1"><div class="fh"><em>1</em><h3 data-ar="المنتج والخدمة">Product and service</h3></div>
+  <p style="color:var(--mut);max-width:70ch" data-ar="ستريديفاي شركة تقنية مستدامة. نصنع بلاطات أرضية كهروضغطية تحوّل الخطوات إلى طاقة لمصابيح LED والمستشعرات، ونقدّم بيانات مباشرة عن حركة المشاة. نبدأ بالمدارس ثم نتوسع إلى المباني التجارية الأكبر.">Stridify is a sustainable technology company. We make piezoelectric floor tiles that turn footsteps into power for LEDs and sensors, and give live footfall data. We start with schools, then grow into larger commercial buildings.</p>
+  <div class="cols" id="f1b" style="margin-top:20px"></div></div>
+
+ <div class="card fb" id="f2"><div class="fh"><em>2</em><h3 data-ar="الإجراءات">Procedure</h3></div>
+  <p style="color:var(--mut);max-width:70ch" data-ar="ستّ مراحل من التسجيل إلى التشغيل. تحمل كل مرحلة جزءاً من طلب الاستثمار.">Six stages from registration to operation. Each stage carries part of the investment request.</p>
+  <div class="cols" id="f2b" style="margin-top:20px"></div></div>
+
+ <div class="card fb" id="f3"><div class="fh"><em>3</em><h3 data-ar="الجوانب المالية">Financial aspects</h3></div>
+  <p style="color:var(--mut);max-width:70ch" data-ar="الإيرادات من ثلاثة مصادر: بيع البلاطات والتركيب والصيانة. عدّل الافتراضات وسيتحدّث كل ما في هذا القسم.">Revenue comes from three streams: tile sales, installation and maintenance. Change the assumptions and everything below updates.</p>
+  <div class="g2" style="align-items:start"><div class="ctl" id="fin"></div><div><div class="big" id="fu"></div><p class="cap" id="fnote"></p></div></div></div>
+
+ <div class="card fb" id="f4"><div class="fh"><em>4</em><h3 data-ar="الاستثمار المطلوب">Investment needed</h3></div>
+  <div class="g2" style="align-items:start"><div id="f4b"></div>
+   <div class="note" style="margin-top:0;text-align:center"><span style="color:var(--mut);font-weight:600" id="f4t"></span><b style="display:block;font-size:clamp(34px,5vw,56px);font-weight:800;color:var(--teal);letter-spacing:-.02em;margin:6px 0">AED 120,000</b><span id="f4s" style="color:var(--mut)"></span></div></div></div>
+
+ <div class="card fb" id="f5"><div class="fh"><em>5</em><h3 data-ar="نقطة التعادل">Break-even</h3></div>
+  <div class="g2" style="align-items:start"><div class="big" id="f5b"></div><div><svg id="chart" viewBox="0 0 560 250" role="img" aria-label="Cumulative cash chart"></svg></div></div></div>
+
+ <div class="card fb" id="f6"><div class="fh"><em>6</em><h3 data-ar="الربح">Profit</h3></div>
+  <div class="g2" style="align-items:start"><div id="f6t" style="overflow-x:auto"></div><div class="big" id="f6b"></div></div>
+  <p class="cap" id="f6n"></p></div>
+</div></section>
+
+<section id="vision"><div class="w">
+ <h2 data-ar="إلى أين نمضي بحلول 2030.">Where this goes by 2030.</h2>
+ <p class="lead" data-ar="هذه رؤية وليست منتجاً حالياً. تتماشى مع استراتيجية الإمارات للطاقة 2050 ومبادرة الحياد المناخي (يُرجى التحقق).">This is a vision, not a product today. It lines up with the UAE Energy Strategy 2050 and the Net Zero 2050 initiative (verify before publishing).</p>
+ <div class="tl stg" id="tl"></div>
+</div></section>
+
+<section id="join" class="joinsec"><div class="w">
+ <p class="eyebrow"><span class="dot"></span><span data-ar="انضم إلى الحركة">Join the movement</span></p>
+ <h2 data-ar="لكلٍّ منّا دور في هذا.">Everyone has a part in this.</h2>
+ <p class="lead" data-ar="المستقبل لا تبنيه شركة واحدة، بل ملايين الخطوات العادية من طلاب وآباء وأصحاب متاجر ومسافرين ومدن كاملة. خُذ خطوتك.">The future is not built by one company. It is built by millions of ordinary steps, from students, parents, shop owners, commuters and whole cities. Take yours.</p>
+ <div class="g2">
+  <div class="card lamps" id="lamps">
+   <h3 data-ar="أضئ الممر معاً">Light the corridor together</h3>
+   <p data-ar="كل نقرة تمثّل خطوة. كل خمس خطوات تضيء مصباحاً.">Every tap is a footstep. Five steps light one lamp.</p>
+   <div class="lrow" id="lrow"></div>
+   <div class="pbar"><i id="lpb"></i></div>
+   <div class="lmeta"><span><b id="lc">0</b> / 50 <span data-ar="خطوة">steps</span></span><span id="lmsg"></span></div>
+   <div class="row"><button class="btn" id="lstep" type="button" data-ar="خُذ خطوة">Take a step</button><button class="btn alt" id="lreset" type="button" data-ar="ابدأ من جديد">Start again</button></div>
+  </div>
+  <div class="roles stg">
+   <div><span class="tag" data-ar="الطلاب">Students</span><h3 data-ar="تعلّمها">Learn it</h3><p data-ar="ابنِ بلاطة مصغّرة في مختبر STEM وتابع خطواتك على لوحة مباشرة.">Build a mini tile in the STEM lab and watch your own steps on a live dashboard.</p></div>
+   <div><span class="tag" data-ar="العائلات والزوار">Families and visitors</span><h3 data-ar="امشِ عليها">Walk it</h3><p data-ar="كل خطوة على أرضية ستريديفاي تساعد في إنارة الطريق. شاهد أثرك على الشاشات وأنت تمرّ.">Every step on a Stridify floor helps light the way. Watch your impact on the screens as you pass.</p></div>
+   <div><span class="tag" data-ar="المدارس والأعمال">Schools and businesses</span><h3 data-ar="استضفها">Host it</h3><p data-ar="ضع البلاطات في ممر أو متجر وأرِ مجتمعك أنك تفعل ما تقول. يحصل الرعاة على منطقة طاقة بعلامتهم.">Put tiles in a corridor or shop and show your community you walk the talk. Sponsors get a branded power zone.</p></div>
+   <div><span class="tag" data-ar="المدن">Cities</span><h3 data-ar="وسّعها">Scale it</h3><p data-ar="حوّل الساحات والمحطات إلى معالم للطاقة النظيفة يراها الناس ويشاركون فيها.">Turn plazas and stations into clean-energy landmarks that people can see and join.</p></div>
+  </div>
+ </div>
+ <p class="manifesto" data-ar="مليارات البشر. مليارات الخطوات كل يوم. <span>لنتوقف عن إهدارها.</span>">Billions of people. Billions of steps a day. <span>Let’s stop wasting them.</span></p>
+ <div class="row"><a class="btn" href="#pilot" data-ar="اجلب ستريديفاي إلى مكانك">Bring Stridify to your place</a><a class="btn alt" href="#tile" data-ar="تعرّف على البلاطة">Meet the tile</a></div>
+</div></section>
+
+<section id="pilot" style="background:var(--sf)"><div class="w" style="max-width:820px">
+ <h2 data-ar="اطلب تجربة.">Request a pilot.</h2>
+ <p class="lead" data-ar="أخبرنا عن موقعك وسنقترح تجربة صغيرة قابلة للقياس.">Tell us about your site and we will propose a small, measurable pilot.</p>
+ <form id="pf" novalidate>
+  <label class="f">Name<input name="n" autocomplete="name"><span class="err"></span></label>
+  <label class="f">Email<input name="e" type="email" autocomplete="email"><span class="err"></span></label>
+  <label class="f"><span data-ar="نوع الجهة">Organisation type</span><select name="t"><option value="">—</option><option>School / University</option><option>Metro / Airport</option><option>Mall / Venue</option><option>City / Government</option><option>Corporate / Sponsor</option></select><span class="err"></span></label>
+  <label class="f"><span data-ar="المدينة">City</span><input name="c"><span class="err"></span></label>
+  <label class="f full"><span data-ar="عدد الزوار يومياً (تقريباً)">Daily visitors (approx.)</span><input name="v" type="number" min="1"><span class="err"></span></label>
+  <div class="f full"><button class="btn" type="submit" data-ar="أرسل الطلب">Send request</button></div>
+ </form>
+ <div id="ok" class="card"><svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="32" fill="none" stroke="#F5A524" stroke-width="4"/><path d="M22 37l10 10 18-22" fill="none" stroke="#0F7C80" stroke-width="5" stroke-linecap="round"/></svg><h3 style="margin-top:14px" data-ar="تم استلام طلبك">Request received</h3><p id="okp" style="color:var(--mut);margin-top:8px"></p></div>
+</div></section>
+</main>
+
+<footer><div class="w fg">
+ <div><a class="logo" href="#top"><svg width="44" height="44"><use href="#ico"/></svg><span class="lt"><b>Stridify</b><span>ستريديفاي</span></span></a>
+  <p style="margin-top:18px;max-width:34ch" data-ar="كل خطوة تُضيء الغد.">Every step powers tomorrow.</p>
+  <p style="margin-top:6px;font-family:'Noto Kufi Arabic',sans-serif;color:#7DD3C8">كل خطوة تُضيء الغد</p>
+    <p style="margin-top:18px;font-size:13px;color:#7F9C95" data-ar="موقع تجريبي لفكرة. جميع الأرقام توضيحية.">A demo site for an idea. All numbers are illustrative.</p></div>
+ <div id="faq"></div>
+</div><div class="bm" aria-hidden="true"><span style="--i:0">S</span><span style="--i:1">t</span><span style="--i:2">r</span><span style="--i:3">i</span><span style="--i:4">d</span><span style="--i:5">i</span><span style="--i:6">f</span><span style="--i:7">y</span></div></footer>
+
+<div class="am" id="am" role="dialog" aria-modal="true" aria-labelledby="amt"><div class="ab">
+ <button class="pill ax" id="ax" type="button" aria-label="Close">✕</button>
+
+ <div id="av1">
+  <h2 id="amt" data-ar="أنشئ حساب عملك">Create your business account</h2>
+  <p class="lead" data-ar="دقيقة واحدة، وترى كم طاقة ومال وكربون يوفّره موقعك.">One minute, then see how much energy, money and CO₂ your site saves.</p>
+  <form id="af" class="af" novalidate>
+   <label class="f full"><span data-ar="اسم النشاط">Business name</span><input name="b" autocomplete="organization"><span class="err"></span></label>
+   <label class="f"><span data-ar="البريد الإلكتروني">Email</span><input name="e" type="email" autocomplete="email"><span class="err"></span></label>
+   <label class="f"><span data-ar="نوع النشاط">Type</span><select name="t"><option>School / University</option><option>Metro / Airport</option><option>Mall / Venue</option><option>City / Government</option><option>Corporate / Sponsor</option></select></label>
+   <label class="f"><span data-ar="المدينة">City</span><input name="c" value="Abu Dhabi"></label>
+   <label class="f"><span data-ar="الزوار يومياً">Daily visitors</span><input name="v" type="number" min="1" value="1000"><span class="err"></span></label>
+   <div class="f full" style="flex-direction:row;flex-wrap:wrap;gap:10px"><button class="btn" type="submit" data-ar="إنشاء الحساب">Create account</button><button class="btn alt" id="adm" type="button" data-ar="جرّب حساباً تجريبياً">Try a demo account</button></div>
+  </form>
+  <p class="anote" data-ar="تجريبي: بياناتك تبقى في متصفحك فقط.">Demo: your details stay in your browser only.</p>
+ </div>
+
+ <div id="av2" hidden>
+  <p class="eyebrow" style="margin-bottom:6px"><span class="dot"></span><span data-ar="لوحة النشاط">Business dashboard</span></p>
+  <h2 id="dn"></h2>
+  <div class="ahd"><span class="tag" id="dt"></span><span id="dc"></span></div>
+  <div class="card ctl" style="margin-top:18px;padding:18px">
+   <label for="dv"><span data-ar="الزوار يومياً">Daily visitors</span><output id="dvo"></output></label><input id="dv" type="range" min="50" max="20000" step="50">
+   <label for="ds" style="margin-top:0"><span data-ar="خطوات كل زائر على البلاط">Steps per visitor on tiles</span><output id="dso"></output></label><input id="ds" type="range" min="5" max="200" step="5" style="margin-bottom:4px">
+  </div>
+  <div class="big">
+   <div><b id="k1">0</b><span data-ar="كيلوواط ساعة في السنة">kWh generated a year</span></div>
+   <div><b id="k2">0</b><span data-ar="درهم موفَّر في السنة">AED saved a year</span></div>
+   <div><b id="k3">0</b><span data-ar="كغ CO₂ متجنَّب في السنة">kg CO₂ avoided a year</span></div>
+   <div><b id="k4">0</b><span data-ar="شجرة مكافئة">trees’ worth of CO₂</span></div>
+  </div>
+  <p class="anote" id="dsince"></p>
+  <details class="ahow"><summary data-ar="كيف حوّلنا الخطوات إلى طاقة؟">How did we turn steps into energy?</summary>
+   <ol id="dhow"></ol>
+  </details>
+  <div class="row" style="margin-top:20px"><button class="btn alt" id="dout" type="button" data-ar="تسجيل الخروج">Sign out</button><a class="btn" href="#pilot" id="dpil" data-ar="اطلب تجربة">Request a pilot</a></div>
+  <p class="anote" data-ar="الأرقام توضيحية وليست قياساً حقيقياً.">Numbers are illustrative estimates, not live measurements.</p>
+ </div>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+var $=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return[].slice.call((r||document).querySelectorAll(s))};
+var lang='en',subs=[],J=2,L=function(e,a){return lang==='ar'?a:e},fmt=function(n,d){return n.toLocaleString('en-US',{maximumFractionDigits:d||0})};
+$$('[data-ar]').forEach(function(e){e.dataset.en=e.innerHTML});
+function num(el,v,d){var a=parseFloat((el.dataset.v||'0')),t0=performance.now();el.dataset.v=v;(function f(t){var k=Math.min(1,(t-t0)/800),x=a+(v-a)*(1-Math.pow(1-k,3));el.textContent=fmt(x,d);if(k<1)requestAnimationFrame(f)})(t0)}
+/* language + theme */
+function setLang(l){lang=l;var h=document.documentElement;h.lang=l;h.dir=l==='ar'?'rtl':'ltr';$$('[data-ar]').forEach(function(e){e.innerHTML=l==='ar'?e.dataset.ar:e.dataset.en});
+ var ph={ar:['الاسم','البريد الإلكتروني']},ls=$$('#pf label.f');['Name','Email'].forEach(function(n,i){ls[i].firstChild.textContent=l==='ar'?ph.ar[i]:n});
+ $('#lb').textContent=l==='ar'?'English':'العربية';updTh();split($('h1'));subs.forEach(function(f){f()});try{localStorage.setItem('sl',l)}catch(e){}}
+$('#lb').onclick=function(){setLang(lang==='ar'?'en':'ar')};
+function updTh(){var d=document.documentElement.dataset.theme==='dark';$('#th').setAttribute('aria-label',d?L('Switch to light mode','التبديل إلى الوضع الفاتح'):L('Switch to dark mode','التبديل إلى الوضع الداكن'))}
+function setTheme(t,save){document.documentElement.dataset.theme=t;updTh();if(save)try{localStorage.setItem('st',t)}catch(e){}}
+$('#th').onclick=function(){var h=document.documentElement;h.classList.add('tt');setTimeout(function(){h.classList.remove('tt')},800);setTheme(h.dataset.theme==='dark'?'light':'dark',true)};
+function split(el){var t=el.textContent.trim();el.setAttribute('aria-label',t);el.innerHTML=t.split(/\s+/).map(function(w,i){return'<span class="wd" aria-hidden="true"><span style="--i:'+i+'">'+w+'</span></span>'}).join(' ')}
+$('#mn').onclick=function(){var o=$('#lk').classList.toggle('open');this.setAttribute('aria-expanded',o)};
+$$('.links a').forEach(function(a){a.onclick=function(){$('#lk').classList.remove('open')}});
+/* active nav */
+var secs=$$('.links a').map(function(a){return $(a.getAttribute('href'))});
+new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)$$('.links a').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)})})},{rootMargin:'-45% 0px -50% 0px'}).observe&&secs.forEach(function(s){if(s)new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)$$('.links a').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+s.id)})})},{rootMargin:'-45% 0px -50% 0px'}).observe(s)});
+/* how it works */
+var ST=[['Step','الخطوة','A foot lands on the tile.','تهبط القدم على البلاطة.'],['Pressure','الضغط','The tile flexes down a few millimetres.','تنثني البلاطة بضعة مليمترات.'],['Piezo','الكهروضغط','Crystals in the layer turn the squeeze into voltage.','تحوّل البلورات الضغط إلى جهد كهربائي.'],['Power','الطاقة','Stored energy feeds nearby lights and sensors.','تغذّي الطاقة المخزّنة الإضاءة والمستشعرات القريبة.']],cur=0,auto=true;
+function drawSt(){$('#hs').innerHTML=ST.map(function(s,i){return'<button class="st'+(i===cur?' on':'')+'" data-i="'+i+'"><em>'+(i+1)+'</em><b>'+L(s[0],s[1])+'</b><span>'+L(s[2],s[3])+'</span></button>'}).join('');$('#dg').setAttribute('class','dg s'+cur);$$('.st').forEach(function(b){b.onclick=function(){cur=+b.dataset.i;auto=false;drawSt()}})}
+subs.push(drawSt);setInterval(function(){if(auto){cur=(cur+1)%4;drawSt()}},2800);
+/* loads */
+var LD=[['Footfall sensor','مستشعر حركة المشاة',.5],['Air-quality sensor','مستشعر جودة الهواء',1],['Phone charging point','نقطة شحن هاتف',5],['LED corridor light','إضاءة LED للممر',5],['Wayfinding display','شاشة إرشادية',15]];
+function loads(){var mx=LD[4][2]*3600/J;$('#loads').innerHTML=LD.map(function(d){var s=d[2]*3600/J;return'<div class="load"><b>'+L(d[0],d[1])+' ('+d[2]+' W)</b><strong>'+fmt(s)+' '+L('steps','خطوة')+'</strong><div><i style="width:'+Math.max(3,s/mx*100)+'%"></i></div></div>'}).join('')}
+$('#jj').oninput=function(){J=+this.value;$('#jjo').textContent=J;loads();impact()};subs.push(loads);
+/* impact */
+function impact(){var s=+$('#stu').value,p=+$('#spd').value;$('#stuo').textContent=fmt(s);$('#spdo').textContent=p;var st=s*p*190,k=st*J/3.6e6;num($('#o1'),st/1e6,1);num($('#o2'),k,0);num($('#o3'),k*1000/5,0);num($('#o4'),k*.4,0)}
+$('#stu').oninput=$('#spd').oninput=impact;
+/* audiences */
+var AU=[['Schools and universities','المدارس والجامعات','Dark or costly corridors, and little hands-on sustainability learning.','ممرات مظلمة أو مكلفة، وفرص محدودة لتعلّم الاستدامة عملياً.','Lights and sensors in the busiest halls, plus a live dashboard students can study.','إضاءة ومستشعرات في أكثر القاعات ازدحاماً، ولوحة بيانات مباشرة للطلاب.','A STEM lab where students watch their own steps light a lamp.','مختبر STEM يرى فيه الطلاب خطواتهم تضيء مصباحاً.'],['Metro and airports','المترو والمطارات','Huge footfall with no data on how people actually move.','أعداد ضخمة من المسافرين دون بيانات عن حركتهم الفعلية.','Footfall analytics per zone and power for wayfinding screens.','تحليلات حركة لكل منطقة وطاقة لشاشات الإرشاد.','Tiles at gates and transfer corridors.','بلاط عند البوابات وممرات التبديل.'],['Malls and venues','المراكز التجارية والفعاليات','Hard to prove which areas draw attention.','يصعب إثبات أي المناطق تجذب الانتباه.','Heat-maps of visitor flow and branded “power zones” sponsors can buy.','خرائط حرارية لحركة الزوار و«مناطق طاقة» بعلامات الرعاة.','A sponsored floor that lights up as crowds pass.','أرضية برعاية تضيء مع مرور الحشود.'],['Cities and sponsors','المدن والرعاة','Need visible, measurable sustainability wins.','يحتاجون إنجازات استدامة مرئية وقابلة للقياس.','A public showcase with real data for ESG reports.','واجهة عامة ببيانات حقيقية لتقارير الحوكمة البيئية.','Plazas and parks as smart-city landmarks.','ساحات وحدائق كمعالم للمدينة الذكية.']],au=0;
+function drawAu(){$('#tabs').innerHTML=AU.map(function(a,i){return'<button class="tab'+(i===au?' on':'')+'" role="tab" data-i="'+i+'">'+L(a[0],a[1])+'</button>'}).join('');var a=AU[au];$('#tp').innerHTML=[[L('The problem','المشكلة'),L(a[2],a[3])],[L('What Stridify adds','ما تضيفه ستريديفاي'),L(a[4],a[5])],[L('Example','مثال'),L(a[6],a[7])]].map(function(c){return'<div><h3>'+c[0]+'</h3><p>'+c[1]+'</p></div>'}).join('');$$('.tab').forEach(function(b){b.onclick=function(){au=+b.dataset.i;drawAu()}})}
+subs.push(drawAu);
+/* financial plan */
+var INV=[['Company Registration and Licensing','التسجيل والترخيص للشركة',18000],['Product Research, Engineering and Testing','أبحاث المنتج والهندسة والاختبار',20000],['Initial Tile Manufacturing and Materials','التصنيع الأولي للبلاطات والمواد',25000],['Equipment and Technical Tools','المعدات والأدوات التقنية',10000],['Website, Software and Administration','الموقع والبرمجيات والإدارة',5000],['Marketing and School Partnerships','التسويق وشراكات المدارس',7000],['Installation and Demonstration Costs','تكاليف التركيب والعرض التوضيحي',10000],['Initial Operating Funds','أموال التشغيل الأولية',15000],['Emergency and Unexpected Expenses','الطوارئ والمصاريف غير المتوقعة',10000]],INVT=120000;
+var PS=[['Register and license','التسجيل والترخيص','Set up the company and get licensed to trade.','تأسيس الشركة والحصول على ترخيص التداول.',18000],['Develop and test','التطوير والاختبار','Engineer the tile, test it, and buy the tools to build it.','هندسة البلاطة واختبارها وشراء أدوات تصنيعها.',30000],['Make the first batch','تصنيع الدفعة الأولى','Manufacture the first tiles and buy materials.','تصنيع أولى البلاطات وشراء المواد.',25000],['Launch and partner','الإطلاق والشراكات','Website, software, marketing and school partnerships.','الموقع والبرمجيات والتسويق وشراكات المدارس.',12000],['Install and demonstrate','التركيب والعرض','Install pilot floors and show real results.','تركيب أرضيات تجريبية وإظهار نتائج حقيقية.',10000],['Operate and expand','التشغيل والتوسع','Fund the first months, keep a reserve, then grow into larger commercial buildings.','تمويل الأشهر الأولى مع احتياطي، ثم التوسع إلى مبانٍ تجارية أكبر.',25000]];
+var FI=[['n0','Tiles sold in month 1','بلاطات مباعة في الشهر الأول',2,30,1,6],['g','Monthly sales growth (%)','نمو المبيعات الشهري (٪)',0,10,1,5],['pt','Tile price (AED)','سعر البلاطة (درهم)',700,1500,50,1100],['pi','Installation fee per tile (AED)','رسوم التركيب لكل بلاطة (درهم)',200,600,50,400],['cu','Cost to make and install a tile (AED)','تكلفة تصنيع البلاطة وتركيبها (درهم)',500,1200,50,800],['mf','Maintenance fee per tile per year (AED)','رسوم الصيانة السنوية لكل بلاطة (درهم)',0,300,25,100],['fx','Fixed costs per month (AED)','التكاليف الثابتة شهرياً (درهم)',3000,12000,500,6000]];
+function aed(n){return L('AED ','')+fmt(n)+L('',' درهم')}
+function sim(v){var cum=-INVT,base=0,stock=25000/(.75*v.cu),rows=[],pay=null,bm=null,be=v.pt+v.pi-v.cu>0?Math.ceil(v.fx/(v.pt+v.pi-v.cu)):null,yr=[0,0,0],rv=[0,0,0],co=[0,0,0],m,t,cr,mr,R,C,N,y;
+ for(m=0;m<36;m++){t=v.n0*Math.pow(1+v.g/100,m);cr=Math.min(t,stock)*.75*v.cu;stock=Math.max(0,stock-t);mr=base*v.mf/12;R=t*(v.pt+v.pi)+mr;C=t*v.cu-cr+mr*.3+v.fx;N=R-C;base+=t;cum+=N;y=Math.floor(m/12);yr[y]+=N;rv[y]+=R;co[y]+=C;if(bm===null&&be&&t>=v.fx/(v.pt+v.pi-v.cu))bm=m+1;if(pay===null&&cum>=0)pay=m+1;rows.push(cum)}
+ return{rows:rows,pay:pay,bm:bm,be:be,yr:yr,rv:rv,co:co,tiles:base,end:cum,stock:25000/(.75*v.cu)}}
+function finStatic(){
+ $('#fnav').innerHTML=[['Product and service','المنتج والخدمة'],['Procedure','الإجراءات'],['Financial aspects','الجوانب المالية'],['Investment needed','الاستثمار المطلوب'],['Break-even','نقطة التعادل'],['Profit','الربح']].map(function(x,i){return'<a href="#f'+(i+1)+'"><i>'+(i+1)+'</i>'+L(x[0],x[1])+'</a>'}).join('');
+ $('#f2b').innerHTML=PS.map(function(p,i){return'<div><span class="tag">'+L('Stage ','المرحلة ')+(i+1)+'</span><h3>'+L(p[0],p[1])+'</h3><p>'+L(p[2],p[3])+'</p><b class="pv">'+aed(p[4])+'</b></div>'}).join('');
+ $('#f4b').innerHTML=INV.map(function(r){return'<div class="load"><b>'+L(r[0],r[1])+'</b><strong>'+aed(r[2])+' · '+Math.round(r[2]/INVT*100)+'%</strong><div><i style="width:'+(r[2]/25000*100)+'%"></i></div></div>'}).join('')+'<div class="itot"><span>'+L('Total Investment','إجمالي الاستثمار')+'</span><span>'+aed(INVT)+'</span></div>';
+ $('#f4t').textContent=L('Investment Request','طلب الاستثمار');
+ $('#f4s').textContent=L('to launch and grow Stridify as a sustainable technology company.','لإطلاق ستريديفاي وتنميتها كشركة تقنية مستدامة.')}
+function finBuild(){finStatic();$('#fin').innerHTML=FI.map(function(f){return'<label for="f_'+f[0]+'"><span>'+L(f[1],f[2])+'</span><output id="fo_'+f[0]+'"></output></label><input id="f_'+f[0]+'" type="range" min="'+f[3]+'" max="'+f[4]+'" step="'+f[5]+'" value="'+(finBuild.v?finBuild.v[f[0]]:f[6])+'">'}).join('');$$('#fin input').forEach(function(i){i.oninput=fin});fin()}
+function fin(){var v={};FI.forEach(function(f){v[f[0]]=+$('#f_'+f[0]).value;$('#fo_'+f[0]).textContent=fmt(v[f[0]])});finBuild.v=v;
+ var r=sim(v),tot=v.pt+v.pi,mg=tot-v.cu,i,h='';
+ $('#f1b').innerHTML=[[L('Revenue stream 1','مصدر الإيراد 1'),L('Tile sales','بيع البلاطات'),L('The Stridify Tile: piezo layer, smart electronics, anti-slip surface.','بلاطة ستريديفاي: طبقة كهروضغطية وإلكترونيات ذكية وسطح مقاوم للانزلاق.'),aed(v.pt),L(' per tile',' للبلاطة')],[L('Revenue stream 2','مصدر الإيراد 2'),L('Installation','التركيب'),L('Our team fits the tiles and sets up the dashboard in schools and buildings.','يركّب فريقنا البلاطات ويجهّز لوحة البيانات في المدارس والمباني.'),aed(v.pi),L(' per tile',' للبلاطة')],[L('Revenue stream 3','مصدر الإيراد 3'),L('Maintenance','الصيانة'),L('A yearly service plan that keeps every installed tile working.','خطة خدمة سنوية تبقي كل بلاطة مركّبة تعمل.'),aed(v.mf),L(' per tile a year',' للبلاطة سنوياً')]].map(function(c){return'<div><span class="tag">'+c[0]+'</span><h3>'+c[1]+'</h3><p>'+c[2]+'</p><b class="pv">'+c[3]+'<small>'+c[4]+'</small></b></div>'}).join('');
+ $('#fu').innerHTML=[[aed(tot),L('revenue per installed tile','إيراد كل بلاطة مركّبة')],[aed(v.cu),L('cost per tile','تكلفة البلاطة')],[aed(mg),L('margin per tile','هامش الربح لكل بلاطة')],[(tot?Math.round(mg/tot*100):0)+'%',L('margin','نسبة الهامش')]].map(function(o){return'<div><b>'+o[0]+'</b><span>'+o[1]+'</span></div>'}).join('');
+ $('#fnote').textContent=L('Planning assumptions, not financial advice. The AED 25,000 first batch covers the making cost of the first ~'+fmt(r.stock)+' tiles. Maintenance costs us 30% of its fee.','افتراضات للتخطيط وليست نصيحة مالية. دفعة التصنيع الأولى (25,000 درهم) تغطي تكلفة تصنيع أول ~'+fmt(r.stock)+' بلاطة. تكلفة الصيانة علينا 30٪ من رسومها.');
+ $('#f5b').innerHTML=[[r.be?fmt(r.be):'—',L('tiles a month to cover fixed costs','بلاطات شهرياً لتغطية التكاليف الثابتة')],[r.bm?L('Month ','الشهر ')+r.bm:'36+',L('monthly break-even reached','الوصول إلى التعادل الشهري')],[r.pay?L('Month ','الشهر ')+r.pay:'36+',L('investment paid back','استرداد الاستثمار')],[aed(INVT),L('to recover','المطلوب استرداده')]].map(function(o){return'<div><b>'+o[0]+'</b><span>'+o[1]+'</span></div>'}).join('');
+ var cum=[-INVT].concat(r.rows),mn=Math.min.apply(0,cum),mx=Math.max.apply(0,cum.concat(1)),X=function(m){return 46+m/36*490},Y=function(x){return 24+(mx-x)/(mx-mn)*160},p=cum.map(function(c,m){return X(m).toFixed(1)+','+Y(c).toFixed(1)}).join(' ');
+ h='<line x1="46" x2="536" y1="'+Y(0)+'" y2="'+Y(0)+'" stroke="currentColor" opacity=".4"/><polyline points="'+X(0)+','+Y(0)+' '+p+' '+X(36)+','+Y(0)+'" fill="#F5A524" opacity=".18"/><polyline points="'+p+'" fill="none" stroke="#0F7C80" stroke-width="3" stroke-linejoin="round"/>';
+ [0,12,24,36].forEach(function(m){h+='<text x="'+X(m)+'" y="206" text-anchor="middle" font-size="13" fill="currentColor" opacity=".75">'+L('M','ش')+m+'</text>'});
+ h+='<text x="42" y="'+(Y(mx)+4)+'" text-anchor="end" font-size="11" fill="currentColor" opacity=".7">'+fmt(mx/1e3)+'k</text><text x="42" y="'+(Y(mn)+4)+'" text-anchor="end" font-size="11" fill="currentColor" opacity=".7">'+fmt(mn/1e3)+'k</text>';
+ if(r.pay)h+='<circle cx="'+X(r.pay)+'" cy="'+Y(0)+'" r="7" fill="#F5A524" stroke="#0B2B26" stroke-width="2"/><text x="'+X(r.pay)+'" y="'+(Y(0)-14)+'" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">'+L('Payback: month ','الاسترداد: الشهر ')+r.pay+'</text>';
+ h+='<text x="46" y="14" font-size="13" fill="currentColor" opacity=".75">'+L('Cumulative cash after the AED 120,000 investment (AED)','التدفق النقدي التراكمي بعد استثمار 120,000 درهم (درهم)')+'</text>';
+ $('#chart').innerHTML=h+'<text x="291" y="230" text-anchor="middle" font-size="12" fill="currentColor" opacity=".6">'+L('Months','الأشهر')+'</text>';
+ var yc=function(x){return'<td class="'+(x<0?'neg':'')+'">'+fmt(Math.round(x))+'</td>'};
+ $('#f6t').innerHTML='<table class="pt"><thead><tr><th>'+L('AED','درهم')+'</th><th>'+L('Year 1','السنة 1')+'</th><th>'+L('Year 2','السنة 2')+'</th><th>'+L('Year 3','السنة 3')+'</th></tr></thead><tbody><tr><td>'+L('Revenue','الإيرادات')+'</td>'+r.rv.map(yc).join('')+'</tr><tr><td>'+L('Costs','التكاليف')+'</td>'+r.co.map(yc).join('')+'</tr><tr class="np"><td>'+L('Net profit','صافي الربح')+'</td>'+r.yr.map(yc).join('')+'</tr></tbody></table>';
+ var tp=r.yr[0]+r.yr[1]+r.yr[2];
+ $('#f6b').innerHTML=[[aed(Math.round(tp/1e3)*1e3),L('profit in 3 years','الربح خلال 3 سنوات')],[aed(Math.round(r.end/1e3)*1e3),L('left after repaying the AED 120,000','المتبقي بعد استرداد 120,000 درهم')],[fmt(tp/INVT,1)+'x',L('return on the investment','العائد على الاستثمار')],[fmt(r.tiles),L('tiles installed in 3 years','بلاطة مركّبة خلال 3 سنوات')]].map(function(o){return'<div><b>'+o[0]+'</b><span>'+o[1]+'</span></div>'}).join('');
+ $('#f6n').textContent=L('Net profit is before tax and owner pay. Conservative: unused operating funds and the emergency reserve are not credited back.','صافي الربح قبل الضرائب وأجور المالكين. تقدير متحفظ: لا تُحتسب أموال التشغيل غير المستخدمة ولا احتياطي الطوارئ.')}
+subs.push(finBuild);
+/* vision */
+var VI=[['2026','Pilot','تجربة','1–3 sites. Prove the tiles, the data and the energy numbers.','من موقع إلى ثلاثة. إثبات البلاطات والبيانات وأرقام الطاقة.'],['2027','First campuses','أولى الحرمات','Schools and universities, with a student-facing live dashboard.','مدارس وجامعات مع لوحة بيانات مباشرة للطلاب.'],['2028','City rollout','انتشار في المدينة','Stations and malls. AI helps place tiles where footfall is highest.','محطات ومراكز تجارية. الذكاء الاصطناعي يحدد أفضل مواقع البلاط.'],['2030','National network','شبكة وطنية','Hybrid solar + kinetic microgrids, building digital twins, and research into triboelectric and perovskite harvesters.','شبكات هجينة شمسية وحركية، ونُسخ رقمية للمباني، وأبحاث في المولّدات الاحتكاكية والبيروفسكايت.']];
+function vis(){$('#tl').innerHTML=VI.map(function(v){return'<div class="card"><h3>'+v[0]+'</h3><b>'+L(v[1],v[2])+'</b><p style="color:var(--mut);margin-top:8px">'+L(v[3],v[4])+'</p><span class="tag">'+L('Vision','رؤية')+'</span></div>'}).join('')}subs.push(vis);
+/* faq */
+var FQ=[['How much energy does a step make?','كم من الطاقة تولّد الخطوة؟','A few joules. That is why Stridify targets lights, sensors and data rather than whole buildings.','بضعة جولات. لذلك تستهدف ستريديفاي الإضاءة والمستشعرات والبيانات لا المباني كاملة.'],['Is it safe to walk on?','هل المشي عليها آمن؟','Yes. The surface is slip-rated and the electronics are sealed under the tile.','نعم. السطح مقاوم للانزلاق والإلكترونيات محكمة الإغلاق تحت البلاطة.'],['How does it compare to solar?','كيف تقارن بالطاقة الشمسية؟','Solar makes far more power. Stridify is complementary: it works indoors, day and night, and gives footfall data.','الشمسية تولّد طاقة أكبر بكثير. ستريديفاي مكمّلة: تعمل داخل المباني ليلاً ونهاراً وتقدم بيانات الحركة.'],['How long do tiles last?','كم تدوم البلاطات؟','To be proven in pilots. We will publish measured durability, not guesses.','سيثبته المشروع التجريبي. سننشر نتائج قياس حقيقية لا تخمينات.']];
+function faq(){$('#faq').innerHTML='<h3 style="color:#fff;margin-bottom:6px">'+L('Questions','أسئلة شائعة')+'</h3>'+FQ.map(function(q){return'<details><summary>'+L(q[0],q[1])+'</summary><p>'+L(q[2],q[3])+'</p></details>'}).join('')}subs.push(faq);
+/* form */
+$('#pf').onsubmit=function(e){e.preventDefault();var f=this,ok=true,d={};[['n',L('Please enter your name.','يرجى إدخال الاسم.')],['e',L('Enter a valid email.','أدخل بريداً صحيحاً.')],['t',L('Choose a type.','اختر النوع.')],['c',L('Enter your city.','أدخل المدينة.')],['v',L('Enter a number above 0.','أدخل رقماً أكبر من 0.')]].forEach(function(r){var el=f.elements[r[0]],v=el.value.trim(),bad=!v||(r[0]==='e'&&!/^\S+@\S+\.\S+$/.test(v))||(r[0]==='v'&&+v<1);el.parentNode.classList.toggle('bad',bad);el.parentNode.querySelector('.err').textContent=bad?r[1]:'';if(bad)ok=false;d[r[0]]=v});
+ if(!ok)return;f.style.display='none';$('#okp').textContent=L('Thanks '+d.n+'. We will contact '+d.e+' about a pilot in '+d.c+' ('+d.t+', about '+fmt(+d.v)+' visitors a day). This is a demo, so nothing was sent.','شكراً '+d.n+'. سنتواصل معك عبر '+d.e+' بخصوص تجربة في '+d.c+'. هذا موقع تجريبي ولم يُرسل أي شيء.');$('#ok').classList.add('show')};
+/* hero 3D */
+(function(){var box=$('#stage'),cv=$('#gl'),tries=0;
+function fb2d(){/* 2D fallback: tappable tile grid, used when WebGL or three.js is unavailable */
+ box.classList.remove('nogl');var c=cv.cloneNode(false);cv.parentNode.replaceChild(c,cv);var x=c.getContext('2d'),N=7,dp=[],gl=[],W,H,steps=0,hs=document.getElementById('hs0');
+ for(var i=0;i<N*N;i++){dp.push(0);gl.push(0)}
+ function rs(){var q=box.getBoundingClientRect();W=c.width=Math.max(300,q.width*(devicePixelRatio||1));H=c.height=Math.max(240,q.height*(devicePixelRatio||1))}
+ function geo(){var s=Math.min(W/(N+1.2),H/(N*.62+1.6)),cx=W/2,cy=H*.2;return{s:s,cx:cx,cy:cy}}
+ function pt(i,j,g){return[g.cx+(i-j)*g.s*.5,g.cy+(i+j)*g.s*.27]}
+ function draw(){requestAnimationFrame(draw);x.clearRect(0,0,W,H);var g=geo(),i,j;
+  for(i=0;i<N;i++)for(j=0;j<N;j++){var k=i*N+j;dp[k]*=.9;gl[k]*=.95;var p=pt(i,j,g),h=g.s*.5,v=g.s*.27,d=dp[k]*6;
+   x.beginPath();x.moveTo(p[0],p[1]+d);x.lineTo(p[0]+h,p[1]+v+d);x.lineTo(p[0],p[1]+2*v+d);x.lineTo(p[0]-h,p[1]+v+d);x.closePath();
+   x.fillStyle='rgb('+Math.round(36+gl[k]*209)+','+Math.round(107+gl[k]*58)+','+Math.round(99-gl[k]*63)+')';x.fill();x.strokeStyle='rgba(255,255,255,.18)';x.lineWidth=1.5;x.stroke()}}
+ function tap(e){var q=c.getBoundingClientRect(),mx=(e.clientX-q.left)*W/q.width,my=(e.clientY-q.top)*H/q.height,g=geo(),best=-1,bd=1e9;
+  for(var i=0;i<N;i++)for(var j=0;j<N;j++){var p=pt(i,j,g),dx=mx-p[0],dy=my-(p[1]+g.s*.27),d=dx*dx+dy*dy;if(d<bd){bd=d;best=i*N+j}}
+  if(bd<g.s*g.s*.3){dp[best]=1;gl[best]=1;steps++;if(hs)hs.textContent=steps}}
+ c.style.cssText='position:absolute;inset:0;width:100%;height:100%;cursor:pointer';c.addEventListener('pointerdown',tap);
+ addEventListener('resize',rs);rs();draw()}
+function go(){if(!window.THREE){if(tries++<1){var sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js';sc.onload=go;sc.onerror=function(){fb2d()};document.head.appendChild(sc)}else fb2d();return}
+ var R;try{R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){fb2d();return}
+ try{init(R)}catch(e){console.warn('3D hero failed, using 2D',e);fb2d()}}
+function init(R){
+R.setPixelRatio(Math.min(devicePixelRatio||1,2));var N=7,S=1.1,sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.1,60);
+sc.add(new THREE.AmbientLight(0x9fd0c8,.7));var dl=new THREE.DirectionalLight(0xffffff,.8);dl.position.set(3,8,5);sc.add(dl);
+var tg=new THREE.BoxGeometry(1,.16,1),T=[];for(var i=0;i<N;i++)for(var j=0;j<N;j++){var m=new THREE.Mesh(tg,new THREE.MeshStandardMaterial({color:0x246b63,roughness:.5,metalness:.3,emissive:0xF5A524,emissiveIntensity:0}));m.position.set((i-3)*S,0,(j-3)*S);m.u={g:0,d:0,i:i,j:j};sc.add(m);T.push(m)}
+var pole=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,3,8),new THREE.MeshStandardMaterial({color:0x3b8a81}));pole.position.set(0,1.3,-4.6);sc.add(pole);
+var lamp=new THREE.Mesh(new THREE.SphereGeometry(.38,24,16),new THREE.MeshBasicMaterial({color:0xF5A524,transparent:true,opacity:.2}));lamp.position.set(0,2.9,-4.6);sc.add(lamp);
+var halo=new THREE.PointLight(0xF5A524,0,14);halo.position.copy(lamp.position);sc.add(halo);
+var c2=document.createElement('canvas');c2.width=c2.height=64;var g=c2.getContext('2d'),gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(0,0,64,64);var GT=new THREE.CanvasTexture(c2);
+var rg=new THREE.RingGeometry(.2,.26,40);rg.rotateX(-Math.PI/2);var rings=[],orbs=[],charge=0,steps=0;
+function step(i,j){var t=T[i*N+j],x=t.position.x,z=t.position.z;t.u.g=1;t.u.d=.24;T.forEach(function(n){var a=Math.abs(n.u.i-i),b=Math.abs(n.u.j-j);if(a<=1&&b<=1&&(a||b))n.u.d=Math.max(n.u.d,.07)});steps++;$('#hs0').textContent=fmt(steps);
+ var r=new THREE.Mesh(rg,new THREE.MeshBasicMaterial({color:0xF5A524,transparent:true,opacity:.9,depthWrite:false}));r.position.set(x,.1,z);sc.add(r);rings.push({m:r,t:0});
+ for(var k=0;k<2;k++){var s=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xF5A524,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false}));s.scale.set(.5,.5,1);sc.add(s);orbs.push({s:s,c:new THREE.QuadraticBezierCurve3(new THREE.Vector3(x,.2,z),new THREE.Vector3(x*.4,2.2,(z-4.6)/2),lamp.position.clone()),t:-k*.12})}}
+var PX={x:0,y:0,tx:0,ty:0},hv=null;var rc=new THREE.Raycaster(),mv=new THREE.Vector2();cv.addEventListener('pointermove',function(e){var b=cv.getBoundingClientRect(),nx=(e.clientX-b.left)/b.width*2-1,ny=-((e.clientY-b.top)/b.height)*2+1;PX.tx=nx;PX.ty=ny;mv.set(nx,ny);rc.setFromCamera(mv,cam);var h=rc.intersectObjects(T);hv=h.length?h[0].object:null});cv.addEventListener('pointerleave',function(){PX.tx=PX.ty=0;hv=null});cv.addEventListener('pointerdown',function(e){var b=cv.getBoundingClientRect();mv.set((e.clientX-b.left)/b.width*2-1,-((e.clientY-b.top)/b.height)*2+1);rc.setFromCamera(mv,cam);var h=rc.intersectObjects(T);if(h.length)step(h[0].object.u.i,h[0].object.u.j)});
+function rs(){var w=box.clientWidth,h=box.clientHeight;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}addEventListener('resize',rs);rs();
+var vis=true;new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(box);var clk=new THREE.Clock(),tm=0,wt=0,wk=0,tmp=new THREE.Vector3(),rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+(function loop(){requestAnimationFrame(loop);if(!vis)return;var dt=Math.min(clk.getDelta(),.05);tm+=dt;wt-=dt;if(wt<=0){wt=.55;wk++;step(2+(wk%2)*2,6-(wk%7))}
+ T.forEach(function(t){t.u.g*=Math.exp(-dt*2.4);t.u.d*=Math.exp(-dt*4.5);t.u.hl=(t.u.hl||0)+(((t===hv)?1:0)-(t.u.hl||0))*Math.min(1,dt*12);t.position.y=-t.u.d+t.u.hl*.08;t.material.emissiveIntensity=t.u.g*1.5+t.u.hl*.3});
+ for(var a=rings.length-1;a>=0;a--){var r=rings[a];r.t+=dt;var k=r.t/1.1;r.m.scale.setScalar(1+k*7);r.m.material.opacity=.9*Math.pow(1-k,1.5);if(k>=1){sc.remove(r.m);rings.splice(a,1)}}
+ for(var b=orbs.length-1;b>=0;b--){var o=orbs[b];o.t+=dt*.7;if(o.t<0){o.s.visible=false;continue}o.s.visible=true;if(o.t>=1){charge=Math.min(1,charge+.03);sc.remove(o.s);orbs.splice(b,1);continue}o.c.getPoint(o.t,tmp);o.s.position.copy(tmp)}
+ charge=Math.max(0,charge-dt*.05);lamp.material.opacity=.2+.8*charge;halo.intensity=charge*4;var an=rm?0:Math.sin(tm*.2)*.35;PX.x+=(PX.tx-PX.x)*Math.min(1,dt*3);PX.y+=(PX.ty-PX.y)*Math.min(1,dt*3);cam.position.set(Math.sin(an)*8+PX.x*1.4,5.4+PX.y*.8,Math.cos(an)*8);cam.lookAt(PX.x*.35,.9,-1.4);R.render(sc,cam)})()}
+go()})();
+/* product tile */
+var TL=[['Anti-slip surface','السطح المقاوم للانزلاق','A hard-wearing top that looks like a normal floor and takes daily foot traffic.','سطح متين يشبه الأرضيات العادية ويتحمّل الحركة اليومية.'],['Piezo layer','الطبقة الكهروضغطية','Ceramic discs squeeze with every step and make a small voltage.','أقراص سيراميكية تنضغط مع كل خطوة وتولّد جهداً صغيراً.'],['Smart electronics','الإلكترونيات الذكية','A rectifier and supercapacitor store the energy. A sensor counts every step.','مقوّم ومكثّف فائق يخزّنان الطاقة، ومستشعر يحسب كل خطوة.'],['Sealed base','القاعدة المحكمة','A shock-absorbing, sealed base protects the electronics and sits flush on the floor.','قاعدة ماصّة للصدمات ومحكمة الإغلاق تحمي الإلكترونيات وتستقر على الأرض.']],tc=0,tauto=true;
+function tsel(i){tc=i;$$('#tlist .st').forEach(function(b,k){b.classList.toggle('on',k===i)});$$('#tsv .ly').forEach(function(g){g.classList.toggle('on',+g.dataset.i===i)});$('#tsv').classList.add('hl')}
+function drawTl(){$('#tlist').innerHTML=TL.map(function(t,i){return'<button class="st" type="button" data-i="'+i+'"><em>'+(i+1)+'</em><b>'+L(t[0],t[1])+'</b><span>'+L(t[2],t[3])+'</span></button>'}).join('');$$('#tlist .st').forEach(function(b){b.onclick=b.onmouseenter=function(){tauto=false;tsel(+b.dataset.i)}});tsel(tc)}
+$$('#tsv .ly').forEach(function(g){g.onclick=g.onmouseenter=function(){tauto=false;tsel(+g.dataset.i)}});
+subs.push(drawTl);setInterval(function(){if(tauto&&$('#tf').classList.contains('in'))tsel((tc+1)%4)},3000);
+/* price */
+function price(){var n=+$('#pn').value;$('#pno').textContent=fmt(n);num($('#p1'),n*250,0);num($('#p2'),n*1500,0);num($('#p3'),n*1250,0)}
+$('#pn').oninput=price;price();
+/* light the corridor */
+var LS=0,LN=50,LP=5;$('#lrow').innerHTML=new Array(11).join('<i class="lamp"></i>');
+function lampsUI(){var n=Math.floor(LS/LP);$$('#lrow .lamp').forEach(function(l,i){l.classList.toggle('on',i<n)});$('#lc').textContent=LS;$('#lpb').style.width=(LS/LN*100)+'%';$('#lamps').classList.toggle('done',LS>=LN);$('#lstep').disabled=LS>=LN;
+ $('#lmsg').textContent=LS===0?L('Tap to start','اضغط لتبدأ'):LS>=LN?L('The corridor is lit. You did that together. Now imagine a whole school.','أُضيء الممر. فعلتموها معاً. تخيّل الآن مدرسة كاملة.'):L(n+' of 10 lamps lit',n+' من 10 مصابيح')}
+$('#lstep').onclick=function(){if(LS>=LN)return;LS++;var b=this,pl=document.createElement('span');pl.className='plus';pl.textContent='+1';pl.style.insetInlineStart=(b.offsetLeft+b.offsetWidth/2-8)+'px';b.parentNode.appendChild(pl);setTimeout(function(){pl.remove()},900);lampsUI()};
+$('#lreset').onclick=function(){LS=0;lampsUI()};subs.push(lampsUI);
+/* init */
+$$('input[type=range]').forEach(function(i){});finBuild();impact();
+var sl;try{sl=localStorage.getItem('sl')}catch(e){}
+var st0;try{st0=localStorage.getItem('st')}catch(e){}
+document.documentElement.dataset.theme=st0==='dark'?'dark':'light';
+setLang(sl==='ar'?'ar':'en');
+/* scroll reveal, progress bar, header shadow */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;var t=e.target;t.classList.add('in');io.unobserve(t);if(t.id==='pr'){['p1','p2','p3'].forEach(function(i){$('#'+i).dataset.v=0});price()}if(t.id==='ib'){['o1','o2','o3','o4'].forEach(function(i){$('#'+i).dataset.v=0});impact()}})},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+$('#o1').parentNode.parentNode.id='ib';
+$$('h2,.lead,.g2>*,.tabs,#pf,.note,#money>.w>.card,.tilegrid>*,.price,.manifesto,.sub,.cap').forEach(function(e){e.classList.add('rv');io.observe(e)});
+$$('.stg').forEach(function(e){io.observe(e)});
+var pg=$('#pg'),hd=$('header');function onsc(){var h=document.documentElement,m=h.scrollHeight-innerHeight;pg.style.transform='scaleX('+(m>0?Math.min(1,scrollY/m):0)+')';hd.classList.toggle('sc',scrollY>8)}
+addEventListener('scroll',onsc,{passive:true});addEventListener('resize',onsc);onsc();
+})();
+</script>
+
+<style id="fx-css">
+/* ===== Stridify motion layer (additive) ===== */
+/* nav fit fix: keep everything on one line, switch to menu earlier, widen bar */
+.nav>*{flex:none;white-space:nowrap}.nav .links{flex:0 1 auto}
+header .w.nav{max-width:1400px}
+@media(max-width:1420px){.nav{gap:14px}.links{gap:14px}.links a{font-size:14px}.nav .btn.cta{padding:12px 18px;font-size:15px}.lt b{font-size:22px}}
+@media(max-width:1360px){.menu{display:block;margin-inline-start:auto}.links{display:none;position:absolute;top:72px;inset-inline:0;background:var(--bg);flex-direction:column;gap:0;padding:8px clamp(18px,4vw,40px) 20px;border-bottom:1px solid var(--ln)}.links.open{display:flex}.links a{padding:14px 0;border-bottom:1px solid var(--ln);font-size:15px}.nav .btn.cta{display:none}}
+/* hide the wipe curtain (and its curved edge) whenever it is idle so it never sits on the page */
+#wp{transform:translateY(125%)}
+#wp:not(.in):not(.out){visibility:hidden}
+#ld.go{transform:translateY(-130%)}
+/* remove the big blurred teal glow in the hero (sun glow + all animations stay) */
+.hero::after{display:none}
+
+#ld{position:fixed;inset:0;z-index:9999;background:var(--night);color:#F1EADB;display:grid;place-items:center;transition:transform 1s cubic-bezier(.76,0,.24,1);will-change:transform}
+#ld::after{content:"";position:absolute;inset:100% 0 auto;height:14vh;background:var(--night);border-radius:0 0 50% 50%/0 0 100% 100%}
+#ld.go{transform:translateY(-114%)}
+.ld-in{display:grid;justify-items:center;gap:22px}
+.ld-in b{font:800 clamp(34px,7vw,64px)/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;overflow:hidden;display:block}
+.ld-in b span{display:inline-block;animation:wup .8s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*.05s)}
+.ld-l{display:flex;gap:14px}
+.ld-l i{width:14px;height:14px;border-radius:50%;background:#1b3c38;animation:ldl .5s forwards;animation-delay:calc(.35s + var(--i)*.22s)}
+@keyframes ldl{to{background:var(--sun);box-shadow:0 0 22px 5px rgba(245,165,36,.65);transform:scale(1.15)}}
+#ldn{position:absolute;inset-inline-end:clamp(18px,4vw,40px);bottom:clamp(14px,3vw,30px);font:800 clamp(40px,8vw,96px)/1 'Bricolage Grotesque',sans-serif;color:rgba(241,234,219,.14);font-variant-numeric:tabular-nums}
+html.ld-hold *:not(#ld):not(#ld *){animation-play-state:paused!important}
+html.ld-hold{overflow:hidden}
+#wp{position:fixed;inset:0;z-index:9990;pointer-events:none;background:linear-gradient(160deg,var(--teal),var(--night));transform:translateY(101%)}
+#wp::before{content:"";position:absolute;inset:-14vh 0 auto;height:14vh;background:var(--teal);border-radius:50% 50% 0 0/100% 100% 0 0}
+#wp.in{transition:transform .55s cubic-bezier(.76,0,.24,1);transform:none}
+#wp.out{transition:transform .6s cubic-bezier(.76,0,.24,1);transform:translateY(-115%)}
+#cu,#cr{position:fixed;left:0;top:0;pointer-events:none;z-index:9998;border-radius:50%;opacity:0;transition:opacity .3s}
+#cu{width:8px;height:8px;margin:-4px;background:var(--sun)}
+#cr{width:38px;height:38px;margin:-19px;border:1.5px solid var(--sun);transition:opacity .3s,width .35s cubic-bezier(.3,1.4,.5,1),height .35s cubic-bezier(.3,1.4,.5,1),margin .35s cubic-bezier(.3,1.4,.5,1),background .3s}
+#cr.h{width:64px;height:64px;margin:-32px;background:rgba(245,165,36,.16)}
+#cr.s{width:86px;height:86px;margin:-43px;background:rgba(245,165,36,.22)}
+html.cur #cu,html.cur #cr{opacity:1}
+.mg{translate:var(--mx,0) var(--my,0);transition:translate .35s cubic-bezier(.2,.8,.2,1),transform .2s,box-shadow .2s}
+section h2.in{animation:hw 1.1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes hw{from{clip-path:inset(-.1em -.1em 100% -.1em);filter:blur(6px)}}
+.cr{clip-path:inset(-70px -70px 100% -70px);transition:clip-path 1.3s cubic-bezier(.7,0,.2,1)}
+.cr.in2{clip-path:inset(-70px)}
+.cr.fin{clip-path:none;transition:none}
+.tilefig.cr>svg,svg.dg.cr{transform-origin:50% 100%}
+.tl .card{transition:transform .35s cubic-bezier(.3,1.3,.5,1),box-shadow .35s,border-color .35s,opacity .4s}
+.big b,.load strong{display:inline-block}
+@media (prefers-reduced-motion:reduce){#ld,#wp,#cu,#cr{display:none!important}.cr{clip-path:none}}
+</style>
+
+<script id="fx-js">
+try{(function(){
+var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,H=document.documentElement,$$=function(s){return[].slice.call(document.querySelectorAll(s))};
+/* 1. preloader: five lamps light up like a row of footsteps, then curtain lifts */
+if(!rm){var seen=0;try{seen=sessionStorage.getItem('sfx')}catch(e){}
+if(!seen){H.classList.add('ld-hold');var l=document.createElement('div');l.id='ld';l.setAttribute('aria-hidden','true');
+l.innerHTML='<div class="ld-in"><b>'+'Stridify'.split('').map(function(c,i){return'<span style="--i:'+i+'">'+c+'</span>'}).join('')+'</b><div class="ld-l"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i></div></div><div id="ldn">0</div>';
+document.body.appendChild(l);var n=document.getElementById('ldn'),t0=performance.now();
+(function c(t){var k=Math.min(1,(t-t0)/1700);n.textContent=Math.round(k*100);if(k<1)requestAnimationFrame(c)})(t0);
+setTimeout(function(){l.classList.add('go');H.classList.remove('ld-hold');try{sessionStorage.setItem('sfx','1')}catch(e){}},1850);
+setTimeout(function(){l.remove()},3000);setTimeout(function(){H.classList.remove('ld-hold')},4000)}}
+/* 2. cursor: dot + ring that grows on links and over the 3D floor */
+if(!rm&&matchMedia('(hover:hover) and (pointer:fine)').matches){var d=document.createElement('div'),r=document.createElement('div');d.id='cu';r.id='cr';document.body.append(d,r);
+var x=0,y=0,rx=0,ry=0;addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;H.classList.add('cur');d.style.transform='translate('+x+'px,'+y+'px)';
+var el=e.target.closest&&e.target.closest('a,button,summary,.tab,.st,.ly,input,select,textarea,.pill');r.classList.toggle('s',!!e.target.closest&&!!e.target.closest('#gl'));r.classList.toggle('h',!!el&&!r.classList.contains('s'))});
+document.addEventListener('mouseleave',function(){H.classList.remove('cur')});
+(function f(){rx+=(x-rx)*.16;ry+=(y-ry)*.16;r.style.transform='translate('+rx+'px,'+ry+'px)';requestAnimationFrame(f)})();
+/* 3. magnetic buttons */
+$$('.btn,.pill,.tab,.tg').forEach(function(b){b.classList.add('mg');
+b.addEventListener('mousemove',function(e){var q=b.getBoundingClientRect();b.style.setProperty('--mx',((e.clientX-q.left-q.width/2)*.25)+'px');b.style.setProperty('--my',((e.clientY-q.top-q.height/2)*.35)+'px')});
+b.addEventListener('mouseleave',function(){b.style.setProperty('--mx','0px');b.style.setProperty('--my','0px')})})}
+/* 4. clip-path reveals for the visuals (tile exploded view, diagrams, chart, donut, price bar) */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var el=e.target;el.classList.add('in2');setTimeout(function(){el.classList.add('fin')},1500);io.unobserve(el)}})},{threshold:.15});
+if(!rm)$$('.tilefig,svg.dg,#chart,.don,.pstack,.tl,.lrow').forEach(function(e){e.classList.add('cr');io.observe(e)});
+/* 5. hero floor scales back as you scroll away */
+var st=document.getElementById('stage');
+if(st&&!rm){var tk=0;addEventListener('scroll',function(){if(tk)return;tk=1;requestAnimationFrame(function(){var p=Math.min(1,scrollY/innerHeight);st.style.scale=1-p*.1;tk=0})},{passive:true})}
+/* 6. section-to-section wipe when a nav link jumps far */
+if(!rm){var w=document.createElement('div');w.id='wp';w.setAttribute('aria-hidden','true');document.body.appendChild(w);var busy=0;
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.metaKey||e.ctrlKey||busy)return;
+var id=a.getAttribute('href');if(id.length<2)return;var tg=document.querySelector(id);if(!tg)return;
+var top=tg.getBoundingClientRect().top+scrollY-80;if(Math.abs(top-scrollY)<innerHeight*.9)return;
+e.preventDefault();busy=1;w.className='in';
+setTimeout(function(){scrollTo({top:top,behavior:'instant'});w.className='out';try{history.replaceState(null,'',id)}catch(_){}},560);
+setTimeout(function(){w.className='';busy=0},1250)})}
+})();}catch(e){console.warn("fx layer skipped",e)}
+</script>
+<style id="fx2-css">
+/* ===== motion layer 2 ===== */
+header{transition:box-shadow .3s,transform .5s cubic-bezier(.7,0,.2,1)}header.hide{transform:translateY(-110%)}
+.cols div:hover,.big div:hover,.card:hover{background-image:radial-gradient(240px circle at var(--sx,50%) var(--sy,50%),rgba(245,165,36,.18),transparent 65%)}
+.sp{position:fixed;left:0;top:0;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:var(--sun);pointer-events:none;z-index:9997;animation:sp .75s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes sp{from{transform:translate(var(--x0),var(--y0)) scale(1)}to{transform:translate(var(--x1),var(--y1)) scale(0);opacity:0}}
+.tl.in2 .card{animation:ci .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--k)*.12s + .3s)}
+@keyframes ci{from{opacity:0;translate:calc(80px*var(--dir,1)) 0}}
+.px{will-change:translate}
+@media (prefers-reduced-motion:reduce){.sp{display:none}header.hide{transform:none}}
+</style>
+<script id="fx2-js">
+try{(function(){
+var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,$$=function(s){return[].slice.call(document.querySelectorAll(s))};
+/* spotlight that follows the cursor on cards */
+document.addEventListener('mousemove',function(e){var c=e.target.closest&&e.target.closest('.cols div,.big div,.card');if(!c)return;var q=c.getBoundingClientRect();c.style.setProperty('--sx',(e.clientX-q.left)+'px');c.style.setProperty('--sy',(e.clientY-q.top)+'px')},{passive:true});
+if(rm)return;
+/* energy sparks on click */
+document.addEventListener('click',function(e){for(var i=0;i<9;i++){var s=document.createElement('i'),a=i/9*6.283+Math.random()*.5,r=34+Math.random()*34;s.className='sp';
+s.style.setProperty('--x0',e.clientX+'px');s.style.setProperty('--y0',e.clientY+'px');s.style.setProperty('--x1',(e.clientX+Math.cos(a)*r)+'px');s.style.setProperty('--y1',(e.clientY+Math.sin(a)*r)+'px');
+document.body.appendChild(s);setTimeout(function(n){n.remove()},800,s)}});
+/* timeline cards slide in one by one */
+$$('.tl').forEach(function(t){$$('.card').filter(function(c){return t.contains(c)}).forEach(function(c,i){c.style.setProperty('--k',i)})});
+/* header hides on scroll down, returns on scroll up */
+var hd=document.querySelector('header'),ly=scrollY,tk=0,px=$$('.tilefig,svg.dg,#chart');px.forEach(function(e){e.classList.add('px')});
+function on(){tk=0;var y=scrollY,d=y-ly;
+if(hd&&Math.abs(d)>6){var open=document.getElementById('lk')&&document.getElementById('lk').classList.contains('open');hd.classList.toggle('hide',d>0&&y>320&&!open&&!hd.contains(document.activeElement));ly=y}
+px.forEach(function(e){var q=e.getBoundingClientRect();if(q.bottom<-100||q.top>innerHeight+100)return;e.style.translate='0 '+(((q.top+q.height/2)-innerHeight/2)*-.07).toFixed(1)+'px'})}
+addEventListener('scroll',function(){if(!tk){tk=1;requestAnimationFrame(on)}},{passive:true});on();
+})();}catch(e){console.warn("fx2 layer skipped",e)}
+</script>
+<style id="fx3-css">
+/* ===== motion layer 3 ===== */
+.mqw{overflow:hidden;padding:18px 0;direction:ltr}
+.mq{background:var(--sun);color:#0B2B26;transform:rotate(-1.4deg) scale(1.04);padding:14px 0;overflow:hidden;white-space:nowrap;box-shadow:0 20px 40px -26px rgba(7,26,25,.5)}
+.mq-t{display:flex;width:max-content;will-change:transform}
+.mq-g{display:flex;align-items:center;flex:none}
+.mq-g span{font:800 clamp(28px,5vw,60px)/1 'Bricolage Grotesque',sans-serif;letter-spacing:-.03em;padding:0 .35em}
+.mq-g span.ar{font-family:'Noto Kufi Arabic',sans-serif;letter-spacing:0}
+.mq-g i{font-style:normal;font-size:clamp(22px,3.4vw,40px);display:inline-block;animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+section .lead{background:linear-gradient(180deg,var(--a,var(--fg)) calc(var(--p,100)*1%),var(--b,var(--mut)) calc(var(--p,100)*1% + 14%));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.joinsec .lead{--a:#F1EADB;--b:#7f9a94}
+.bm{overflow:hidden;direction:ltr;text-align:center;margin-top:48px;padding:0 0 .08em;font:800 clamp(64px,19vw,280px)/.9 'Bricolage Grotesque',sans-serif;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.5px rgba(241,234,219,.22);user-select:none}
+.bm span{display:inline-block;transform:translateY(112%);transition:transform 1.1s cubic-bezier(.2,.8,.2,1),color .3s,-webkit-text-stroke-color .3s;transition-delay:calc(var(--i)*.07s),0s,0s}
+.bm.in span{transform:none}
+.bm.in span:hover{color:var(--sun);-webkit-text-stroke-color:var(--sun);transition-delay:0s;transform:translateY(-10px)}
+.rp{position:absolute;width:10px;height:10px;margin:-5px;border-radius:50%;background:rgba(255,255,255,.55);pointer-events:none;animation:rp .7s ease-out forwards}
+@keyframes rp{to{transform:scale(28);opacity:0}}
+.tr{position:fixed;left:0;top:0;border-radius:50%;background:var(--sun);pointer-events:none;z-index:9996;opacity:0}
+html.cur .tr{opacity:var(--o)}
+@supports (animation-timeline:view()){
+section:not(.hero){animation:sin linear backwards;animation-timeline:view();animation-range:entry 0% entry 45%}
+@keyframes sin{from{clip-path:inset(0 3% round 56px 56px 0 0)}to{clip-path:inset(0 0 round 0)}}
+.hero .w{animation:hx linear both;animation-timeline:view();animation-range:exit 10% exit 70%}
+@keyframes hx{to{opacity:.15;translate:0 -50px;scale:.97}}}
+@media (prefers-reduced-motion:reduce){.mq-g i{animation:none}.bm span{transform:none}section .lead{-webkit-text-fill-color:currentColor;background:none}.tr{display:none}}
+</style>
+<script id="fx3-js">
+try{(function(){
+var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,$$=function(s){return[].slice.call(document.querySelectorAll(s))};
+if(rm)return;
+/* marquee: drifts on its own, speeds up and reverses with scroll direction */
+var mt=document.getElementById('mqt'),gw=0,x=0,v=1.1,dir=-1,ly=scrollY,sv=0;
+addEventListener('scroll',function(){var d=scrollY-ly;ly=scrollY;sv=Math.min(40,Math.abs(d));if(d)dir=d>0?-1:1},{passive:true});
+(function m(){if(mt){gw=mt.firstElementChild.offsetWidth;var tgt=1.1+sv*.35;v+=(tgt-v)*.1;sv*=.92;x+=dir*v;if(gw){if(x<=-gw)x+=gw;if(x>0)x-=gw}mt.style.transform='translate3d('+x+'px,0,0)'}requestAnimationFrame(m)})();
+/* lead paragraphs fill in as you scroll */
+var L=$$('section .lead'),tk=0;
+function sc(){tk=0;var vh=innerHeight;L.forEach(function(e){var q=e.getBoundingClientRect();if(q.bottom<0||q.top>vh)return;var p=(vh*.88-q.top)/(q.height+vh*.3)*100;e.style.setProperty('--p',Math.max(0,Math.min(100,p)).toFixed(1))})}
+addEventListener('scroll',function(){if(!tk){tk=1;requestAnimationFrame(sc)}},{passive:true});sc();
+/* footer wordmark rises letter by letter */
+var bm=document.querySelector('.bm');if(bm)new IntersectionObserver(function(es,o){if(es[0].isIntersecting){bm.classList.add('in');o.disconnect()}},{threshold:.3}).observe(bm);
+/* button ripple */
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.btn');if(!b)return;var q=b.getBoundingClientRect(),r=document.createElement('i');r.className='rp';r.style.left=(e.clientX-q.left)+'px';r.style.top=(e.clientY-q.top)+'px';b.appendChild(r);setTimeout(function(){r.remove()},750)});
+/* energy trail behind the cursor */
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){var T=[],mx=0,my=0;for(var i=0;i<6;i++){var d=document.createElement('i');d.className='tr';var s=6-i*.8;d.style.cssText='width:'+s+'px;height:'+s+'px;margin:'+(-s/2)+'px;--o:'+(.55-i*.08);document.body.appendChild(d);T.push({e:d,x:0,y:0})}
+addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY},{passive:true});
+(function f(){var px=mx,py=my;T.forEach(function(p,i){p.x+=(px-p.x)*(.34-i*.04);p.y+=(py-p.y)*(.34-i*.04);p.e.style.transform='translate('+p.x+'px,'+p.y+'px)';px=p.x;py=p.y});requestAnimationFrame(f)})()}
+})();}catch(e){console.warn("fx3 layer skipped",e)}
+</script>
+
+<style id="fx4-css">
+/* ===== motion layer 4: GSAP / Lenis / story rail ===== */
+html.lenis,html.lenis body{height:auto}html.lenis{scroll-behavior:auto!important}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}::view-transition-new(root){z-index:2}
+/* 3D card tilt (pointer-driven via --rx/--ry) */
+.cols div,.roles div,.tl .card,.big div{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.cols div:hover,.roles div:hover,.tl .card:hover,.big div:hover{transform:perspective(900px) translateY(-6px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .15s linear,box-shadow .35s,border-color .35s,background .3s}
+/* exploded view is scroll-scrubbed by GSAP once it is ready */
+html.gs .ly{transition:opacity .35s,filter .35s}html.gs .tilefig:not(.in) .ly{transform:none}
+/* story rail: Step > Compression > Energy > Light > Impact */
+#rl{position:fixed;inset-inline-end:clamp(12px,1.6vw,26px);top:50%;translate:0 -50%;z-index:40;display:flex;flex-direction:column;gap:26px}
+#rl::before,#rl .rl-f{content:"";position:absolute;inset-inline-start:calc(100% - 4px);top:5px;bottom:5px;width:2px;border-radius:2px;background:var(--ln)}
+html[dir=rtl] #rl::before,html[dir=rtl] #rl .rl-f{inset-inline-start:auto;inset-inline-end:calc(100% - 4px)}
+#rl .rl-f{background:linear-gradient(var(--sun),var(--teal));transform-origin:50% 0;transform:scaleY(0);z-index:1}
+#rl a{position:relative;z-index:2;display:flex;align-items:center;justify-content:flex-end;gap:10px;text-decoration:none;color:var(--mut);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+#rl a b{font-weight:700;opacity:0;translate:calc(8px*var(--dir,1)*-1) 0;transition:opacity .3s,translate .4s cubic-bezier(.2,.8,.2,1);background:var(--bg);padding:3px 8px;border-radius:8px;border:1px solid var(--ln)}
+#rl a:hover b,#rl a.on b{opacity:1;translate:0 0}
+#rl a u{width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--ln);transition:all .4s cubic-bezier(.3,1.4,.5,1)}
+#rl a.past u{border-color:var(--teal);background:var(--teal)}
+#rl a.on u{border-color:var(--sun);background:var(--sun);transform:scale(1.5);box-shadow:0 0 14px 3px rgba(245,165,36,.6)}
+@media(max-width:1100px){#rl{display:none}}
+/* sliding nav indicator (desktop) */
+#nv{position:absolute;bottom:0;left:0;height:2px;width:0;border-radius:2px;background:var(--sun);pointer-events:none}
+@media(min-width:1361px){.links{position:relative}.links a.on:not(:hover){border-color:transparent}}
+@media(max-width:1360px){#nv{display:none}
+.links{display:flex;visibility:hidden;opacity:0;clip-path:inset(0 0 100% 0);transition:clip-path .55s cubic-bezier(.7,0,.2,1),opacity .3s,visibility 0s .55s}
+.links.open{visibility:visible;opacity:1;clip-path:inset(0 0 0 0);transition:clip-path .55s cubic-bezier(.7,0,.2,1),opacity .3s,visibility 0s}
+.links a{opacity:0;transform:translateY(14px);transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1),color .25s,border-color .25s}
+.links.open a{opacity:1;transform:none;transition-delay:calc(var(--n,0)*.05s + .12s)}}
+.menu{transition:transform .5s cubic-bezier(.3,1.4,.5,1),border-color .25s}.menu[aria-expanded=true]{transform:rotate(90deg)}
+/* form success + submit states */
+#ok.show{animation:up .7s cubic-bezier(.2,.8,.2,1) both}
+#ok.show svg circle{stroke-dasharray:202;stroke-dashoffset:202;animation:dr .9s forwards}
+@media (prefers-reduced-motion:reduce){#rl a b,#rl a u{transition:none}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script id="fx4-js">
+try{(function(){
+var rm=matchMedia('(prefers-reduced-motion:reduce)').matches;if(rm)return;
+var H=document.documentElement,$=function(s,r){return(r||document).querySelector(s)},$$=function(s,r){return[].slice.call((r||document).querySelectorAll(s))};
+/* theme toggle: circular reveal from the button */
+var th=$('#th');
+if(th&&document.startViewTransition&&th.onclick){var orig=th.onclick;th.onclick=null;
+th.addEventListener('click',function(e){var q=th.getBoundingClientRect(),x=q.left+q.width/2,y=q.top+q.height/2,r=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+var t=document.startViewTransition(function(){orig.call(th,e)});
+t.ready.then(function(){H.animate({clipPath:['circle(0px at '+x+'px '+y+'px)','circle('+r+'px at '+x+'px '+y+'px)']},{duration:750,easing:'cubic-bezier(.7,0,.2,1)',pseudoElement:'::view-transition-new(root)'})}).catch(function(){})})}
+/* pointer-driven 3D tilt on cards */
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){var TS='.cols div,.roles div,.tl .card,.big div';
+document.addEventListener('mousemove',function(e){var c=e.target.closest&&e.target.closest(TS);if(!c)return;var q=c.getBoundingClientRect();c.style.setProperty('--rx',(-((e.clientY-q.top)/q.height-.5)*7).toFixed(2)+'deg');c.style.setProperty('--ry',(((e.clientX-q.left)/q.width-.5)*9).toFixed(2)+'deg')},{passive:true});
+document.addEventListener('mouseout',function(e){var c=e.target.closest&&e.target.closest(TS);if(c&&!c.contains(e.relatedTarget)){c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')}})}
+/* mobile menu: stagger index */
+$$('.links a').forEach(function(a,i){a.style.setProperty('--n',i)});
+if(!window.gsap||!window.ScrollTrigger)return;
+gsap.registerPlugin(ScrollTrigger);H.classList.add('gs');
+/* smooth scrolling (Lenis) synced to ScrollTrigger; no pinning, no hijack */
+if(window.Lenis){var ls=new Lenis({duration:1.1,easing:function(t){return 1-Math.pow(1-t,4)},wheelMultiplier:.9});H.classList.add('lenis');
+ls.on('scroll',ScrollTrigger.update);gsap.ticker.add(function(t){ls.raf(t*1000)});gsap.ticker.lagSmoothing(0);
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented||e.metaKey||e.ctrlKey)return;var id=a.getAttribute('href');if(id.length<2)return;var t=$(id);if(!t)return;e.preventDefault();ls.scrollTo(t,{offset:-80,duration:1.3});try{history.replaceState(null,'',id)}catch(_){}});
+var mn=$('#mn');if(mn)mn.addEventListener('click',function(){setTimeout(function(){$('#lk').classList.contains('open')?ls.stop():ls.start()},0)});
+$$('#lk a').forEach(function(a){a.addEventListener('click',function(){ls.start()})})}
+/* story rail */
+var R=[['.hero','Step','الخطوة'],['#tile','Compression','الضغط'],['#how','Energy','الطاقة'],['#power','Light','الضوء'],['#impact','Impact','الأثر']];
+var rl=document.createElement('nav');rl.id='rl';rl.setAttribute('aria-label','Story: step to impact');
+rl.innerHTML='<i class="rl-f"></i>'+R.map(function(r){return'<a href="'+(r[0]==='.hero'?'#top':r[0])+'"><b>'+r[1]+'</b><u></u></a>'}).join('');document.body.appendChild(rl);
+var dots=$$('#rl a'),lab=function(){dots.forEach(function(d,i){$('b',d).textContent=H.lang==='ar'?R[i][2]:R[i][1]})};lab();new MutationObserver(lab).observe(H,{attributes:true,attributeFilter:['lang']});
+R.forEach(function(r,i){var s=$(r[0]);if(s)ScrollTrigger.create({trigger:s,start:'top 55%',end:'bottom 55%',onToggle:function(self){if(self.isActive)dots.forEach(function(d,k){d.classList.toggle('on',k===i);d.classList.toggle('past',k<i)})}})});
+ScrollTrigger.create({trigger:'.hero',endTrigger:'#impact',start:'top top',end:'bottom 55%',scrub:.4,animation:gsap.fromTo('#rl .rl-f',{scaleY:0},{scaleY:1,ease:'none'})});
+/* nav: sliding active indicator */
+var lk=$('#lk'),nv=document.createElement('i');nv.id='nv';lk.appendChild(nv);
+function mv(){var a=$('a.on',lk);if(!a){gsap.to(nv,{width:0,duration:.3});return}gsap.to(nv,{x:a.offsetLeft,width:a.offsetWidth,duration:.5,ease:'power3.out'})}
+$$('a',lk).forEach(function(a){new MutationObserver(mv).observe(a,{attributes:true,attributeFilter:['class']})});addEventListener('resize',mv);
+/* exploded tile view: scroll assembles/separates layers, labels and guides follow */
+var tf=$('#tf'),ly=$$('#tsv .ly');
+if(tf&&ly.length){var tl=gsap.timeline({scrollTrigger:{trigger:tf,start:'top 88%',end:'center 42%',scrub:.8}});
+ly.forEach(function(g){var c=parseFloat(g.style.getPropertyValue('--c'))||0,k=+g.dataset.i;tl.fromTo(g,{y:c},{y:0,duration:.7,ease:'power2.out'},k*.14)});
+tl.fromTo('#tsv g[stroke-dasharray] line',{opacity:0},{opacity:1,duration:.4},.7)}
+/* chart bars grow from the baseline whenever the model changes */
+var ch=$('#chart');if(ch)new MutationObserver(function(){$$('rect',ch).forEach(function(r,i){gsap.fromTo(r,{scaleY:0},{scaleY:1,duration:.7,delay:i*.06,ease:'power3.out',transformBox:'fill-box',transformOrigin:r.getAttribute('fill')==='#F5A524'?'50% 100%':'50% 0%',overwrite:true})})}).observe(ch,{childList:true});
+/* price stack: bar fills when seen */
+var ps=$('.pstack');if(ps)gsap.from($$('i',ps),{scaleX:0,transformOrigin:'0 50%',duration:1.1,stagger:.15,ease:'power3.out',scrollTrigger:{trigger:ps,start:'top 90%',once:true}});
+/* final section: glow drifts with scroll, CTA row rises */
+var js=$('.joinsec');if(js){gsap.fromTo(js,{backgroundPosition:'0% 0%'},{backgroundPosition:'0% 40%',ease:'none',scrollTrigger:{trigger:js,start:'top bottom',end:'bottom top',scrub:true}});
+gsap.from($$('.joinsec .row .btn').slice(-2),{y:34,opacity:0,duration:.9,stagger:.12,ease:'power3.out',scrollTrigger:{trigger:'.joinsec .manifesto',start:'top 70%',once:true}})}
+/* form: busy state before the success message */
+var pf=$('#pf');if(pf)pf.addEventListener('submit',function(){var b=$('button[type=submit]',pf);if(b){gsap.fromTo(b,{scale:.94},{scale:1,duration:.5,ease:'elastic.out(1,.5)'})}});
+addEventListener('load',function(){ScrollTrigger.refresh()});
+})();}catch(e){console.warn("fx4 layer skipped",e)}
+</script>
+
+<script id="safe-js">
+(function(){
+function reveal(){
+  var H=document.documentElement,l=document.getElementById('ld');
+  if(l){l.classList.add('go');setTimeout(function(){l.remove()},1200)}
+  H.classList.remove('ld-hold');
+  var vh=innerHeight;
+  [].forEach.call(document.querySelectorAll('.rv,.stg,.cr,.tilefig'),function(e){
+    var q=e.getBoundingClientRect();
+    if(q.top<vh*1.1&&q.bottom>-50){
+      e.classList.add('in');
+      if(e.classList.contains('cr')){e.classList.add('in2');setTimeout(function(){e.classList.add('fin')},1500)}
+    }
+  });
+}
+addEventListener('load',function(){setTimeout(reveal,3500)});
+var t;addEventListener('scroll',function(){clearTimeout(t);t=setTimeout(reveal,900)},{passive:true});
+setTimeout(function(){document.documentElement.classList.remove('ld-hold')},4500);
+})();
+</script>
+<script id="acct-js">
+(function(){
+var $=function(s){return document.querySelector(s)},K='stridify_acct';
+var J=2,AED=0.30,CO2=0.4,TREE=21; /* joules/step, AED per kWh, kg CO2 per kWh, kg CO2 a tree absorbs per year */
+var DAYS=365;
+var fmt=function(n,d){return n.toLocaleString('en-US',{maximumFractionDigits:d||0})};
+var ar=function(){return document.documentElement.lang==='ar'},L=function(e,a){return ar()?a:e};
+var acc=null;
+try{acc=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
+function save(){try{localStorage.setItem(K,JSON.stringify(acc))}catch(e){}}
+var m=$('#am'),btn=$('#acct'),last=null;
+function label(){btn.textContent=acc?L('My dashboard','لوحتي'):L('Sign up','حساب جديد');
+ $('#ax').setAttribute('aria-label',L('Close','إغلاق'))}
+function open(){last=document.activeElement;m.classList.add('open');document.body.style.overflow='hidden';show();
+ setTimeout(function(){var f=acc?$('#dv'):$('#af input');f&&f.focus()},50)}
+function close(){m.classList.remove('open');document.body.style.overflow='';last&&last.focus&&last.focus()}
+function show(){$('#av1').hidden=!!acc;$('#av2').hidden=!acc;if(acc)dash()}
+function calc(){var y=acc.v*acc.s*DAYS,kwh=y*J/3.6e6;return{y:y,kwh:kwh,aed:kwh*AED,co2:kwh*CO2,tr:kwh*CO2/TREE}}
+function dash(){
+ $('#dn').textContent=acc.b;$('#dt').textContent=acc.t;$('#dc').textContent=acc.c||'';
+ $('#dv').value=acc.v;$('#ds').value=acc.s;$('#dvo').textContent=fmt(acc.v);$('#dso').textContent=acc.s;
+ var r=calc();
+ $('#k1').textContent=fmt(r.kwh);$('#k2').textContent=fmt(r.aed);$('#k3').textContent=fmt(r.co2);$('#k4').textContent=fmt(r.tr,1);
+ var d=Math.max(1,Math.floor((Date.now()-acc.d)/864e5)+1);
+ $('#dsince').textContent=L('Since you joined ('+d+(d===1?' day':' days')+'): '+fmt(r.kwh/DAYS*d,1)+' kWh, AED '+fmt(r.aed/DAYS*d,1)+', '+fmt(r.co2/DAYS*d,1)+' kg CO₂ avoided (projected).',
+  'منذ انضمامك ('+d+' يوم): '+fmt(r.kwh/DAYS*d,1)+' ك.و.س، '+fmt(r.aed/DAYS*d,1)+' درهم، '+fmt(r.co2/DAYS*d,1)+' كغ CO₂ متجنَّب (تقديري).');
+ var yr=fmt(r.y/1e6,2);
+ $('#dhow').innerHTML=ar()?[
+  '<li><b>الخطوات:</b> '+fmt(acc.v)+' زائر × '+acc.s+' خطوة × 365 يوماً = '+yr+' مليون خطوة.</li>',
+  '<li><b>إلى طاقة:</b> كل خطوة على البلاطة ≈ 2 جول.</li>',
+  '<li><b>إلى كيلوواط ساعة:</b> الجول ÷ 3,600,000 = '+fmt(r.kwh,1)+' ك.و.س.</li>',
+  '<li><b>إلى مال:</b> × 0.30 درهم لكل ك.و.س (افتراض).</li>',
+  '<li><b>إلى كربون:</b> × 0.4 كغ CO₂ لكل ك.و.س. والشجرة تمتص نحو 21 كغ سنوياً.</li>'].join('')
+ :[
+  '<li><b>Steps:</b> '+fmt(acc.v)+' visitors × '+acc.s+' steps × 365 days = '+yr+' million steps.</li>',
+  '<li><b>To energy:</b> each step on a tile ≈ 2 joules.</li>',
+  '<li><b>To kWh:</b> joules ÷ 3,600,000 = '+fmt(r.kwh,1)+' kWh.</li>',
+  '<li><b>To money:</b> × AED 0.30 per kWh (assumed tariff).</li>',
+  '<li><b>To CO₂:</b> × 0.4 kg per kWh. One tree absorbs about 21 kg a year.</li>'].join('');
+}
+function err(i,t){var f=i.closest('.f');f.classList.toggle('bad',!!t);f.querySelector('.err').textContent=t||''}
+$('#af').addEventListener('submit',function(e){e.preventDefault();var f=e.target,ok=true;
+ var b=f.b.value.trim(),em=f.e.value.trim(),v=+f.v.value;
+ err(f.b,b?'':L('Please enter a name','أدخل الاسم'));if(!b)ok=false;
+ var good=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em);err(f.e,good?'':L('Enter a valid email','بريد غير صالح'));if(!good)ok=false;
+ err(f.v,v>0?'':L('Enter a number','أدخل رقماً'));if(!(v>0))ok=false;
+ if(!ok)return;
+ acc={b:b,e:em,t:f.t.value,c:f.c.value.trim(),v:v,s:40,d:Date.now()};save();label();show();
+ var h=$('#dv');h&&h.focus()});
+function upd(){acc.v=+$('#dv').value;acc.s=+$('#ds').value;save();dash()}
+$('#dv').addEventListener('input',upd);$('#ds').addEventListener('input',upd);
+$('#adm').addEventListener('click',function(){
+ acc={b:'Bright Riders School',e:'office@brightriders.example',t:'School / University',c:'Abu Dhabi',v:3952,s:150,d:Date.now()-41*864e5};
+ save();label();show();$('#dv').focus()});
+$('#dout').addEventListener('click',function(){acc=null;try{localStorage.removeItem(K)}catch(e){}label();$('#af').reset();show()});
+$('#dpil').addEventListener('click',close);
+btn.addEventListener('click',open);$('#ax').addEventListener('click',close);
+m.addEventListener('mousedown',function(e){if(e.target===m)close()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open'))close()});
+new MutationObserver(function(){label();if(acc&&m.classList.contains('open'))dash()}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+label();
+})();
+</script>
+</body>
+</html>
